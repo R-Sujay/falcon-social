@@ -3,16 +3,190 @@
 @tailwind utilities;
 
 @layer base {
-        body {
-                @apply bg-black;
-        }
+  body {
+    /* @apply bg-black; */
+  }
 }
 
 @layer components {
-        .hoverAnimation {
-                @apply hover:bg-[#d9d9d9] hover:bg-opacity-10 rounded-full cursor-pointer w-[52px] h-[52px] xl:w-auto xl:h-auto xl:py-3 xl:px-4 transition duration-200 ease-out;
-        }
-        .icon {
-                @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
-        }
+  .hoverAnimation {
+    @apply hover:bg-[#d9d9d9] hover:bg-opacity-10 rounded-full cursor-pointer w-[52px] h-[52px] xl:w-auto xl:h-auto xl:py-3 xl:px-4 transition duration-200 ease-out;
+  }
+  .icon {
+    @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
+  }
+  .loginBox {
+    @apply relative w-1/2 h-full flex justify-center items-center flex-col login:absolute login:w-full login:h-[150px] login:bottom-0 transition-opacity delay-75;
+  }
+  .loginBoxH2 {
+    @apply text-white text-[1.2em] font-medium mb-[10px];
+  }
+  .loginForm {
+    @apply absolute left-0 w-full p-[50px] duration-500;
+  }
+  .loginFormInput {
+    @apply w-full mb-5 p-[10px] outline-none text-base border border-[#333];
+  }
+  .loginFields {
+    @apply w-full flex flex-col;
+  }
+  .loginTitle {
+    @apply text-[1.5em] text-white mb-5 font-medium;
+  }
+}
+.bg-loginBg {
+  background-image: url("/public/LoginBg.svg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-homeBg {
+  background: -webkit-radial-gradient(50.53% 52.6%, ellipse farthest-corner, rgba(23, 0, 54, 1) 0%, rgba(23, 0, 54, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Stlye=2);";
+  background: radial-gradient(50.53% 52.6%, ellipse farthest-corner, rgba(23, 0, 54, 1) 0%, rgba(23, 0, 54, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Stlye=2);
+}
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+/* .body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: 0.5s;
+}
+.container {
+  position: relative;
+  width: 800px;
+  height: 500px;
+  margin: 20px;
+} */
+/* .blueBg {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
+}
+.blueBg .box {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+} */
+/* .blueBg .box h2 {
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 10px;
+} */
+.formBx {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: #fff;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 45px rgba(0, 0, 0, 0.25);
+  transition: 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.formBx.active {
+  left: 50%;
+}
+
+.formBx .form {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 50px;
+  transition: 0.5s;
+}
+.formBx .signinform {
+  transition-delay: 0.25s;
+}
+.formBx.active .signinform {
+  left: -100%;
+  transition-delay: 0s;
+}
+.formBx .signupform {
+  left: 100%;
+  transition-delay: 0s;
+}
+.formBx.active .signupform {
+  left: 0;
+}
+.formBx .form form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.formBx .form form h3 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.formBx .form form input {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  outline: none;
+  font-size: 16px;
+  border: 1px solid #333;
+}
+.formBx.active .signupform input[type="submit"] {
+  background: #f4363f;
+}
+.formBx .form form input[type="submit"] {
+  background: #03a9f4;
+  border: none;
+  color: #fff;
+  max-width: 100px;
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  /* .container .blueBg {
+    top: 0;
+    height: 100%;
+  } */
+  /* .formBx {
+    width: 100%;
+    height: 500px;
+    top: 0;
+    box-shadow: none;
+  } */
+  /* .blueBg .box {
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    bottom: 0;
+  } */
+  /* .box.signin {
+    top: 0;
+  } */
+  /* .formBx.active {
+    left: 0;
+    top: 150px;
+  } */
 }

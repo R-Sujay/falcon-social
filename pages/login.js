@@ -1,13 +1,13 @@
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import LeftTopBg from "../components/login/LeftTopBg";
 import LeftBottomBg from "../components/login/LeftBottomBg";
 import RightBottomBg from "../components/login/RightBottomBg";
 import RightTopBg from "../components/login/RightTopBg";
-import { useState } from "react";
-import Image from "next/image";
 
-export default function Home() {
+function login() {
   const [signUp, setSignUp] = useState(false);
-  const [getStarted, setGetStarted] = useState(false);
+  console.log(signUp);
 
   return (
     <div className="bg-[#060933] h-screen relative flex flex-col justify-center items-center z-0">
@@ -31,42 +31,27 @@ export default function Home() {
         <h1 className="text-3xl text-white font-semibold">Login</h1>
       </div> */}
       <div className="flex justify-center items-center min-h-screen duration-500 z-50">
-        <div className="relative w-[800px] h-[500px] m-5 login:max-w-[400px] login:h-[650px] flex justify-center items-center">
+        {/* <div className="container"> */}
+        <div className="relative w-[800px] h-[500px] m-5 login:max-w-[400px] login:h-[650px] login:flex login:justify-center login:items-center">
           {/* <div className="blueBg"> */}
-          <div className={`absolute top-10 border-2 border-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-3xl  flex justify-center items-center bg-[rgba(255, 255, 255, 0.2)] shadow-[0_5px_45px_rgba(0, 0, 0, 0.15)] login:top-0 login:h-full ${getStarted ? "w-full h-[420px]" : "h-[450px] w-1/2"}`}>
-            {getStarted ? (
-              <>
-                <div className={`loginBox login:top-0 ${!signUp && "opacity-0"}`}>
-                  <h2 className="loginBoxH2">Already Have an Account</h2>
-                  <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setSignUp(false)}>
-                    <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Sign in</span>
-                  </button>
-                </div>
-                <div className={`loginBox ${signUp && "opacity-0"}`}>
-                  <h2 className="loginBoxH2">Don't Have an Account</h2>
-                  <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setSignUp(true)}>
-                    <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Sign up</span>
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center space-y-20">
-                <Image src="https://rb.gy/ogau5a" width={150} height={150} objectFit="contain" />
-
-                <div>
-                  <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setGetStarted(true)}>
-                    <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white px-3 text-lg">Get Started</span>
-                  </button>
-                </div>
-              </div>
-            )}
+          <div className="absolute top-10  border-2 border-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 w-full rounded-3xl h-[420px] flex justify-center items-center bg-[rgba(255, 255, 255, 0.2)] shadow-[0_5px_45px_rgba(0, 0, 0, 0.15)] login:top-0 login:h-full">
+            <div className={`loginBox login:top-0 ${!signUp && "opacity-0"}`}>
+              <h2 className="loginBoxH2">Already Have an Account</h2>
+              <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setSignUp(false)}>
+                <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Sign in</span>
+              </button>
+            </div>
+            <div className={`loginBox ${signUp && "opacity-0"}`}>
+              <h2 className="loginBoxH2">Don't Have an Account</h2>
+              <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setSignUp(true)}>
+                <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Sign up</span>
+              </button>
+            </div>
           </div>
-
           {/* <div className={`formBx ${signUp === true ? "active" : ""}`}> */}
-          <div className={`${getStarted ? `absolute top-0 w-1/2 h-full border-2 border-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-3xl z-50 flex justify-center items-center shadow-[0_5px_45px_rgba(0, 0, 0, 0.25)] ease-in-out duration-500 overflow-hidden login:w-full login:h-[500px] login:top-0 login:shadow-none ${signUp ? "left-1/2 login:left-0 login:top-[150px]" : "left-0"}` : "hidden"}`}>
+          <div className={`absolute top-0 w-1/2 h-full border-2 border-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-3xl z-50 flex justify-center items-center shadow-[0_5px_45px_rgba(0, 0, 0, 0.25)] ease-in-out duration-500 overflow-hidden login:w-full login:h-[500px] login:top-0 login:shadow-none ${signUp ? "left-1/2 login:left-0 login:top-[150px]" : "left-0"}`}>
             <div className={`loginForm ${signUp ? "delay-[0s] -left-full" : "delay-[0.25s]"}`}>
               <form className="loginFields">
                 <h3 className="loginTitle">Sign In</h3>
@@ -100,3 +85,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default login;
