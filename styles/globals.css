@@ -25,7 +25,7 @@
     @apply absolute left-0 w-full p-[50px] duration-500;
   }
   .loginFormInput {
-    @apply w-full mb-5 p-[10px] outline-none text-base border border-[#333];
+    @apply w-full mb-5 p-[10px] outline-none text-base bg-transparent text-white border border-[#333] rounded-2xl pl-3 focus:border-[3px] transition duration-500 focus:border-gray-400;
   }
   .loginFields {
     @apply w-full flex flex-col;

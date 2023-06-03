@@ -1,102 +1,54 @@
-import LeftTopBg from "../components/login/LeftTopBg";
-import LeftBottomBg from "../components/login/LeftBottomBg";
-import RightBottomBg from "../components/login/RightBottomBg";
-import RightTopBg from "../components/login/RightTopBg";
-import { useState } from "react";
-import Image from "next/image";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
+import { modalState } from "../atoms/modalAtom";
+import Feed from "../components/Feed";
+import Login from "../components/Login";
+import Modal from "../components/Modal";
+import Sidebar from "../components/Sidebar";
+import Widgets from "../components/Widgets";
+import useSession from "../lib/useSession";
 
-export default function Home() {
-  const [signUp, setSignUp] = useState(false);
-  const [getStarted, setGetStarted] = useState(false);
+export default function Home({ trendingResults, followResults }) {
+  const isOpen = useRecoilValue(modalState);
+  const { data: session } = useSession();
+
+  if (!session) return <Login />;
 
   return (
-    <div className="bg-[#060933] h-screen relative flex flex-col justify-center items-center z-0">
-      <div className="-z-10">
-        {/* <Image src="https://i.imgur.com/Djjy7fC.png" layout="fill" /> */}
-        <div className="absolute max-h-[50%] w-1/2 overflow-clip left-0 top-0">
-          <LeftTopBg />
-        </div>
-        <div className="absolute max-h-[70%] w-[70%] bottom-0 left-0 z-10">
-          <LeftBottomBg />
-        </div>
-        <div className="absolute max-h-[50%] w-[40%] top-0 right-0">
-          <RightTopBg />
-        </div>
-        <div className="absolute max-h-[80%] w-[68%] bottom-0 right-0">
-          <RightBottomBg />
-        </div>
-      </div>
+    <div className="bg-black">
+      <Head>
+        <title>Twitter</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      {/* <div className="max-w-3xl border-2 border-gray-500 w-1/3 z-50 h-3/5 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 px-10 py-20 flex flex-col justify-center items-center">
-        <h1 className="text-3xl text-white font-semibold">Login</h1>
-      </div> */}
-      <div className="flex justify-center items-center min-h-screen duration-500 z-50">
-        <div className="relative w-[800px] h-[500px] m-5 login:max-w-[400px] login:h-[650px] flex justify-center items-center">
-          {/* <div className="blueBg"> */}
-          <div className={`absolute top-10 border-2 border-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-3xl  flex justify-center items-center bg-[rgba(255, 255, 255, 0.2)] shadow-[0_5px_45px_rgba(0, 0, 0, 0.15)] login:top-0 login:h-full ${getStarted ? "w-full h-[420px]" : "h-[450px] w-1/2"}`}>
-            {getStarted ? (
-              <>
-                <div className={`loginBox login:top-0 ${!signUp && "opacity-0"}`}>
-                  <h2 className="loginBoxH2">Already Have an Account</h2>
-                  <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setSignUp(false)}>
-                    <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Sign in</span>
-                  </button>
-                </div>
-                <div className={`loginBox ${signUp && "opacity-0"}`}>
-                  <h2 className="loginBoxH2">Don't Have an Account</h2>
-                  <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setSignUp(true)}>
-                    <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Sign up</span>
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center space-y-20">
-                <Image src="https://rb.gy/ogau5a" width={150} height={150} objectFit="contain" />
+      <main className=" in-h-screen flex max-w-[1500px] mx-auto">
+        <Sidebar />
+        <Feed />
+        <Widgets trendingResults={trendingResults} followResults={followResults} />
 
-                <div>
-                  <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" onClick={() => setGetStarted(true)}>
-                    <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white px-3 text-lg">Get Started</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* <div className={`formBx ${signUp === true ? "active" : ""}`}> */}
-          <div className={`${getStarted ? `absolute top-0 w-1/2 h-full border-2 border-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-3xl z-50 flex justify-center items-center shadow-[0_5px_45px_rgba(0, 0, 0, 0.25)] ease-in-out duration-500 overflow-hidden login:w-full login:h-[500px] login:top-0 login:shadow-none ${signUp ? "left-1/2 login:left-0 login:top-[150px]" : "left-0"}` : "hidden"}`}>
-            <div className={`loginForm ${signUp ? "delay-[0s] -left-full" : "delay-[0.25s]"}`}>
-              <form className="loginFields">
-                <h3 className="loginTitle">Sign In</h3>
-                <input type="text" placeholder="Username" className="loginFormInput" />
-                <input type="password" placeholder="Password" className="loginFormInput" />
-
-                <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-transparent group w-fit mx-auto" type="submit">
-                  <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                  <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Login</span>
-                </button>
-              </form>
-            </div>
-
-            <div className={`loginForm delay-[0s]  ${signUp ? "left-0" : "left-full"}`}>
-              <form className="loginFields">
-                <h3 className="loginTitle">Sign Up</h3>
-                <input type="text" placeholder="Username" className="loginFormInput" />
-                <input type="password" placeholder="Email Address" className="loginFormInput" />
-                <input type="password" placeholder="Password" className="loginFormInput" />
-                <input type="password" placeholder="Confirm Password" className="loginFormInput" />
-
-                <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group" type="submit">
-                  <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                  <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Register</span>
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+        {isOpen && <Modal />}
+      </main>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const trendingResults = [
+    { heading: "T20 World Cup 2021 · LIVE", description: "NZvAUS: New Zealand and Australia clash in the T20 World Cup final", img: "https://i.imgur.com/IQeDZaV.jpg", tags: ["#T20WorldCupFinal, ", "Kane Williamson"] },
+    { heading: "Trending in United Arab Emirates", description: "#earthquake", img: "https://i.imgur.com/eEu1sjA.jpg", tags: ["#DubaiAirshow, ", "#gessdubai"] },
+    { heading: "Trending in Digital Creators", description: "tubbo and quackity", img: "", tags: ["QUACKITY AND TUBBO,"] },
+  ];
+  const followResults = [
+    { userImg: "https://i.imgur.com/muzGndB.jpg", username: "SpaceX", tag: "@SpaceX" },
+    { userImg: "https://i.imgur.com/K8NGDtZ.jpg", username: "Elon Musk", tag: "@elonmusk" },
+    { userImg: "https://i.imgur.com/XSpr1pu.png", username: "Tesla", tag: "@Tesla" },
+  ];
+
+  return {
+    props: {
+      trendingResults,
+      followResults,
+    },
+  };
 }
