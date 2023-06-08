@@ -1,7 +1,7 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useSession from "../lib/useSession";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -12,33 +12,30 @@ import { addDoc, collection, doc, onSnapshot, serverTimestamp } from "firebase/f
 import { db } from "../firebase";
 import Moment from "react-moment";
 import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
+import { postState } from "../atoms/PostAtom";
+import addComment from "../lib/addComment";
+import useGetState from "../hooks/useGetState";
 
 function Modal() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
-  const [postId, setPostId] = useRecoilState(postIdState);
-  const [post, setPost] = useState();
+  const postId = useRecoilValue(postIdState);
+  const posts = useRecoilValue(postState);
+  const post = posts.find((post) => post.$id === postId);
   const [comment, setComment] = useState("");
   const router = useRouter();
-
-  useEffect(
-    () =>
-      onSnapshot(doc(db, "posts", postId), (snapshot) => {
-        setPost(snapshot.data());
-      }),
-    [db]
-  );
 
   const sendComment = async (e) => {
     e.preventDefault();
 
-    await addDoc(collection(db, "posts", postId, "comments"), {
+    const promise = await addComment({
       comment: comment,
-      username: session.user.name,
       tag: session.user.tag,
+      timestamp: new Date(Date.now()).toISOString(),
       userImg: session.user.image,
-      timestamp: serverTimestamp(),
-    });
+      username: session.user.name,
+      postRef: postId,
+    }).then((res) => console.log(res));
 
     setIsOpen(false);
     setComment("");
@@ -72,7 +69,7 @@ function Modal() {
                       </div>{" "}
                       ·{" "}
                       <span className="hover:underline text-sm sm:text-[15px]">
-                        <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
+                        <Moment fromNow>{post?.timestamp}</Moment>
                       </span>
                       <p className="text-[#d9d9d9] text-[15px] sm:text-base">{post?.text}</p>
                     </div>

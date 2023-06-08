@@ -16,7 +16,7 @@
     @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
   }
   .loginBox {
-    @apply relative w-1/2 h-full flex justify-center items-center flex-col login:absolute login:w-full login:h-[150px] login:bottom-0 transition-opacity delay-75;
+    @apply relative w-1/2 h-full flex justify-center items-center flex-col login:absolute login:w-full login:h-[25%] login:bottom-0 transition-opacity delay-75;
   }
   .loginBoxH2 {
     @apply text-white text-[1.2em] font-medium mb-[10px];

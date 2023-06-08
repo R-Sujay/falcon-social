@@ -1,6 +1,5 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import Feed from "../components/Feed";
 import Login from "../components/Login";
@@ -8,12 +7,25 @@ import Modal from "../components/Modal";
 import Sidebar from "../components/Sidebar";
 import Widgets from "../components/Widgets";
 import useSession from "../lib/useSession";
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { postState } from "../atoms/PostAtom";
+import useGetState from "../hooks/useGetState";
 
 export default function Home({ trendingResults, followResults }) {
   const isOpen = useRecoilValue(modalState);
   const { data: session } = useSession();
+  const { getPosts } = useGetState({ postId: "" });
 
   if (!session) return <Login />;
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  setInterval(() => {
+    getPosts();
+  }, 60000);
 
   return (
     <div className="bg-black">
@@ -21,6 +33,8 @@ export default function Home({ trendingResults, followResults }) {
         <title>Twitter</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Toaster />
 
       <main className=" in-h-screen flex max-w-[1500px] mx-auto">
         <Sidebar />

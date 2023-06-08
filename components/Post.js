@@ -5,28 +5,51 @@ import useSession from "../lib/useSession";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
 import { db } from "../firebase";
+import { commentState, likeState } from "../atoms/PostAtom";
+import useGetState from "../hooks/useGetState";
+import deleteLike from "../lib/deleteLike";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useRecoilState(modalState);
-  const [postId, setPostId] = useRecoilState(postIdState);
-  const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState([]);
-  const [liked, setLiked] = useState(false);
   const router = useRouter();
 
-  useEffect(() => onSnapshot(collection(db, "posts", id, "comments"), (snapshot) => setComments(snapshot.docs)), [db, id]);
+  const [isOpen, setIsOpen] = useRecoilState(modalState);
+  const [postId, setPostId] = useRecoilState(postIdState);
+  const comments = useRecoilValue(commentState);
+  const likes = useRecoilValue(likeState);
 
-  useEffect(() => onSnapshot(collection(db, "posts", id, "likes"), (snapshot) => setLikes(snapshot.docs)), [db, id]);
+  const { getComments, getLikes } = useGetState({ postId: id });
 
-  useEffect(() => setLiked(likes.findIndex((like) => like.id === session?.user?.uid) !== -1), [likes]);
+  const postFoundComments = comments.find((comment) => comment.id === id);
+  const postComments = postFoundComments?.doc;
+
+  const postFoundlikes = likes.find((like) => like.id === id);
+  const postLikes = postFoundlikes?.doc[0];
+
+  const [liked, setLiked] = useState(false);
+
+  const { getPosts } = useGetState({ postId: "" });
+
+  useEffect(() => {
+    getComments();
+    getLikes();
+  }, [db, id]);
+
+  useEffect(() => {
+    if (postLikes?.users.find((user) => session.user.uid === user)) {
+      setLiked(true);
+    }
+  }, []);
 
   const likePost = async () => {
     if (liked) {
-      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+      // await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+      const comment = await deleteLike(postLikes, session.user.uid).then(() => {
+        getPosts();
+      });
     } else {
       await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
         username: session.user.name,
@@ -48,7 +71,7 @@ function Post({ id, post, postPage }) {
             </div>{" "}
             •{" "}
             <span className="hover:underline text-sm sm:text-[15px]">
-              <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
+              <Moment fromNow>{post?.timestamp}</Moment>
             </span>
             {!postPage && <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">{post?.text}</p>}
           </div>
@@ -70,7 +93,7 @@ function Post({ id, post, postPage }) {
             <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
               <ChatIcon className="h-5 group-hover:text-[#1d9bf0]" />
             </div>
-            {comments.length > 0 && <span className="group-hover:text-[#1d9bf0] text-sm">{comments.length}</span>}
+            {postComments?.length > 0 && <span className="group-hover:text-[#1d9bf0] text-sm">{postComments.length}</span>}
           </div>
 
           {session.user.uid === post?.id ? (
@@ -102,7 +125,7 @@ function Post({ id, post, postPage }) {
             }}
           >
             <div className="icon group-hover:bg-pink-600/10">{liked ? <HeartIconFilled className="h-5 text-pink-600" /> : <HeartIcon className="h-5 group-hover:text-pink-600" />}</div>
-            {likes.length > 0 && <span className={`group-hover:text-pink-600 text-sm ${liked && "text-pink-600"}`}>{likes.length}</span>}
+            {postLikes?.likeCount > 0 && <span className={`group-hover:text-pink-600 text-sm ${liked && "text-pink-600"}`}>{postLikes.likeCount}</span>}
           </div>
 
           <div className="icon group">

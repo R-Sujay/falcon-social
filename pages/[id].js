@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { modalState } from "../atoms/modalAtom";
-import Modal from "../components/Modal";
+// import Modal from "../components/Modal";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
 import { db } from "../firebase";
@@ -65,7 +65,7 @@ function PostPage({ trendingResults, followResults }) {
         </div>
         <Widgets trendingResults={trendingResults} followResults={followResults} />
 
-        {isOpen && <Modal />}
+        {/* {isOpen && <Modal />} */}
       </main>
     </div>
   );

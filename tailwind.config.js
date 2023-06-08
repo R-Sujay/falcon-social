@@ -19,10 +19,25 @@ module.exports = {
         // => @media (min-width: 1536px) { ... }
 
         login: { max: "991px" },
+        loginSm: { max: "432px" },
       },
       transitionProperty: {
         width: "width",
         display: "visibility, opacity",
+      },
+      animation: {
+        fadeIn: "fadeIn 2s",
+        width: "width 0.5s",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { visibility: "hidden" },
+          "100%": { visibility: "visible" },
+        },
+        width: {
+          "0%": { width: "0" },
+          "100%": { width: "100%" },
+        },
       },
     },
   },

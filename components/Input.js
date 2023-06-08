@@ -1,15 +1,12 @@
 import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon, XIcon } from "@heroicons/react/outline";
 import { EmojiHappyIcon as EmojiHappyIconFilled, PhotographIcon as PhotographIconFilled } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
-import { db } from "../firebase";
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from "@firebase/firestore";
-import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-// const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import useSession from "../lib/useSession";
 import uploadFile from "../lib/uploadFile";
 import addPost from "../lib/addPost";
+import useGetState from "../hooks/useGetState";
 
 function Input() {
   const [input, setInput] = useState("");
@@ -18,6 +15,7 @@ function Input() {
   const [image, setImage] = useState(null);
   const filePickerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
+  const { getPosts } = useGetState({ postId: "" });
 
   const { data: session } = useSession();
 
@@ -29,7 +27,7 @@ function Input() {
 
     if (selectedFile) {
       const fileUpload = await uploadFile(image).then((res) => {
-        imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${process.env.NEXT_PUBLIC_POST_BUCKET}/files/${res.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
+        imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${res.bucketId}/files/${res.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
       });
     }
 
@@ -43,34 +41,7 @@ function Input() {
       ...(image && { image: imageUrl }),
     }).then((res) => console.log(res));
 
-    // promise.then(
-    //   function (response) {
-    //     console.log(response);
-    //   },
-    //   function (error) {
-    //     console.log(error);
-    //   }
-    // );
-
-    // const docRef = await addDoc(collection(db, "posts"), {
-    //   id: session.user.uid,
-    //   username: session.user.name,
-    //   userImg: session.user.image,
-    //   tag: session.user.tag,
-    //   text: input,
-    //   timestamp: serverTimestamp(),
-    // });
-
-    // const imageRef = ref(storage, `posts/${docRef.id}/image`);
-
-    // if (selectedFile) {
-    //   await uploadString(imageRef, selectedFile, "data_url").then(async () => {
-    //     const downloadURL = await getDownloadURL(imageRef);
-    //     await updateDoc(doc(db, "posts", docRef.id), {
-    //       image: downloadURL,
-    //     });
-    //   });
-    // }
+    getPosts();
 
     setLoading(false);
     setInput("");

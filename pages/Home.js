@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import Feed from "../components/Feed";
-import Modal from "../components/Modal";
+// import Modal from "../components/Modal";
 import Sidebar from "../components/Sidebar";
 import Widgets from "../components/Widgets";
 
@@ -23,7 +23,7 @@ export default function Home({ trendingResults, followResults }) {
         <Feed />
         <Widgets trendingResults={trendingResults} followResults={followResults} />
 
-        {isOpen && <Modal />}
+        {/* {isOpen && <Modal />} */}
       </main>
     </div>
   );
