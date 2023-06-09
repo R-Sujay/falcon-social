@@ -11,6 +11,7 @@ import { db } from "../firebase";
 import { commentState, likeState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
 import deleteLike from "../lib/deleteLike";
+import updateAddLike from "../lib/updateAddLike";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
@@ -46,15 +47,14 @@ function Post({ id, post, postPage }) {
 
   const likePost = async () => {
     if (liked) {
-      // await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
-      const comment = await deleteLike(postLikes, session.user.uid).then(() => {
-        getPosts();
-      });
+      const deleteLike = await deleteLike(postLikes, session.user.uid);
     } else {
-      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
-        username: session.user.name,
-      });
+      if (postLikes) {
+        const addLike = await updateAddLike(postLikes, session.user.uid);
+      }
     }
+
+    getPosts();
   };
 
   return (

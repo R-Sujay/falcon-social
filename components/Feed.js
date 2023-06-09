@@ -5,9 +5,11 @@ import { toast } from "react-hot-toast";
 import { RefreshIcon } from "@heroicons/react/solid";
 import { useRecoilState } from "recoil";
 import { postState } from "../atoms/PostAtom";
+import useGetState from "../hooks/useGetState";
 
 function Feed() {
   const [posts, setPosts] = useRecoilState(postState);
+  const { getPosts } = useGetState({ postId: "", refresh: true });
 
   const handleRefresh = () => {
     const refreshToast = toast.loading("Refreshing...", {
@@ -18,7 +20,7 @@ function Feed() {
       },
     });
 
-    fetchPosts();
+    getPosts();
 
     toast.success("Feed Updated!", {
       id: refreshToast,

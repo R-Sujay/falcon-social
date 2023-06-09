@@ -1,19 +1,21 @@
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { commentState, likeState, postState } from "../atoms/PostAtom";
+import { commentState, likeState, postState, refreshState } from "../atoms/PostAtom";
 import { debounce } from "lodash";
 import fetchPosts from "../lib/fetchPosts";
 import fetchComments from "../lib/fetchComments";
 import fetchLikes from "../lib/fetchLikes";
 
-function useGetState({ postId }) {
+function useGetState({ postId, refresh }) {
   const [post, setPost] = useRecoilState(postState);
   const [comments, setComments] = useRecoilState(commentState);
   const [likes, setLikes] = useRecoilState(likeState);
 
   const getPosts = useCallback(
     debounce(async (q) => {
-      fetchPosts().then((res) => setPost(res.documents));
+      fetchPosts().then((res) => {
+        setPost(res.documents);
+      });
     }, 100),
     []
   );
