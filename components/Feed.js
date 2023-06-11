@@ -9,6 +9,7 @@ import useGetState from "../hooks/useGetState";
 
 function Feed() {
   const [posts, setPosts] = useRecoilState(postState);
+  // const [refres, setRefresh] = useRecoilState(refreshState);
   const { getPosts } = useGetState({ postId: "", refresh: true });
 
   const handleRefresh = () => {

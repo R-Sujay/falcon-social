@@ -22,7 +22,7 @@
     @apply text-white text-[1.2em] font-medium mb-[10px];
   }
   .loginForm {
-    @apply absolute left-0 w-full p-[50px] duration-500;
+    @apply absolute left-0 w-full p-[50px] login:px-10 duration-500;
   }
   .loginFormInput {
     @apply w-full mb-5 p-[10px] outline-none text-base bg-transparent text-white border border-[#333] rounded-2xl pl-3 focus:border-[3px] transition duration-500 focus:border-gray-400;
