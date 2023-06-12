@@ -21,8 +21,6 @@ function PostPage({ trendingResults, followResults }) {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
 
-  console.log(comments);
-
   useEffect(
     () =>
       onSnapshot(doc(db, "posts", id), (snapshot) => {

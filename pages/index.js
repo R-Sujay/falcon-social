@@ -9,25 +9,18 @@ import Widgets from "../components/Widgets";
 import useSession from "../lib/useSession";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
-import { postState, refreshState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
 
 export default function Home({ trendingResults, followResults }) {
   const isOpen = useRecoilValue(modalState);
   const { data: session } = useSession();
   const { getPosts, getComments, getLikes } = useGetState({ postId: "" });
-  const [refresh, setRefresh] = useRecoilState(refreshState);
 
   if (!session) return <Login />;
 
   useEffect(() => {
     getPosts();
   }, []);
-
-  useEffect(() => {
-    getComments();
-    getLikes();
-  }, [refresh]);
 
   setInterval(() => {
     getPosts();

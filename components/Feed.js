@@ -3,14 +3,13 @@ import Post from "./Post";
 import fetchPosts from "../lib/fetchPosts";
 import { toast } from "react-hot-toast";
 import { RefreshIcon } from "@heroicons/react/solid";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { postState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
 
 function Feed() {
-  const [posts, setPosts] = useRecoilState(postState);
-  // const [refres, setRefresh] = useRecoilState(refreshState);
-  const { getPosts } = useGetState({ postId: "", refresh: true });
+  const posts = useRecoilValue(postState);
+  const { getPosts } = useGetState({ postId: "" });
 
   const handleRefresh = () => {
     const refreshToast = toast.loading("Refreshing...", {
@@ -42,8 +41,6 @@ function Feed() {
         {posts.map((post) => (
           <Post key={post.$id} id={post.$id} post={post} />
         ))}
-
-        {/* <Post key={posts[0]?.$id} id={posts[0]?.$id} post={posts[0]} /> */}
       </div>
     </div>
   );

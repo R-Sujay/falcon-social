@@ -12,6 +12,8 @@ import { commentState, likeState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
 import deleteLike from "../lib/deleteLike";
 import updateAddLike from "../lib/updateAddLike";
+import deletePost from "../lib/deletePost";
+import createLike from "../lib/createLike";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
@@ -21,6 +23,7 @@ function Post({ id, post, postPage }) {
   const [postId, setPostId] = useRecoilState(postIdState);
   const comments = useRecoilValue(commentState);
   const likes = useRecoilValue(likeState);
+  const [loading, setLoading] = useState(false);
 
   const { getComments, getLikes } = useGetState({ postId: id });
 
@@ -37,28 +40,36 @@ function Post({ id, post, postPage }) {
   useEffect(() => {
     getComments();
     getLikes();
-  }, [db, id]);
+  }, [post]);
 
   useEffect(() => {
     if (postLikes?.users.find((user) => session.user.uid === user)) {
       setLiked(true);
+    } else {
+      setLiked(false);
     }
-  }, []);
+  }, [postLikes]);
 
   const likePost = async () => {
+    setLoading(true);
+    const userId = session.user.uid;
+
     if (liked) {
-      const deleteLike = await deleteLike(postLikes, session.user.uid);
+      const deletePostLike = await deleteLike(postLikes, userId);
     } else {
       if (postLikes) {
-        const addLike = await updateAddLike(postLikes, session.user.uid);
+        const addLike = await updateAddLike(postLikes, userId);
+      } else {
+        const createPostLike = await createLike(userId, id);
       }
     }
 
     getPosts();
+    setLoading(false);
   };
 
   return (
-    <div className="p-3 flex cursor-pointer border-b border-gray-700" onClick={() => router.push(`/${id}`)}>
+    <div className={`p-3 flex cursor-pointer border-b border-gray-700 ${loading && "animate-pulse pointer-events-none"}`} onClick={() => router.push(`/${id}`)}>
       {!postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mr-4" />}
       <div className="flex flex-col space-y-2 w-full">
         <div className={`flex ${!postPage && "justify-between"}`}>
@@ -71,7 +82,7 @@ function Post({ id, post, postPage }) {
             </div>{" "}
             •{" "}
             <span className="hover:underline text-sm sm:text-[15px]">
-              <Moment fromNow>{post?.timestamp}</Moment>
+              <Moment fromNow>{post?.$createdAt}</Moment>
             </span>
             {!postPage && <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">{post?.text}</p>}
           </div>
@@ -101,7 +112,13 @@ function Post({ id, post, postPage }) {
               className="flex items-center space-x-1 group"
               onClick={(e) => {
                 e.stopPropagation();
-                deleteDoc(doc(db, "posts", id));
+                setLoading(true);
+
+                deletePost(id, post?.image, postComments, postLikes).then(() => {
+                  getPosts();
+                  setLoading(false);
+                });
+
                 router.push("/");
               }}
             >

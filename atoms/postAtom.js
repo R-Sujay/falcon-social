@@ -14,8 +14,3 @@ export const commentState = atom({
   key: "commentState",
   default: [],
 });
-
-export const refreshState = atom({
-  key: "refreshState",
-  default: false,
-});

@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { commentState, likeState, postState, refreshState } from "../atoms/PostAtom";
+import { commentState, likeState, postState } from "../atoms/PostAtom";
 import { debounce } from "lodash";
 import fetchPosts from "../lib/fetchPosts";
 import fetchComments from "../lib/fetchComments";
 import fetchLikes from "../lib/fetchLikes";
 
-function useGetState({ postId, refresh }) {
+function useGetState({ postId }) {
   const [post, setPost] = useRecoilState(postState);
   const [comments, setComments] = useRecoilState(commentState);
   const [likes, setLikes] = useRecoilState(likeState);
@@ -14,7 +14,7 @@ function useGetState({ postId, refresh }) {
   const getPosts = useCallback(
     debounce(async (q) => {
       fetchPosts().then((res) => {
-        setPost(res.documents);
+        setPost(res.documents.reverse());
       });
     }, 100),
     []
@@ -26,7 +26,9 @@ function useGetState({ postId, refresh }) {
         fetchComments(postId).then((res) => {
           if (!comments.find((comment) => comment.id === res.documents.forEach((com) => com.$id))) {
             if (res.documents.find((comment) => comment.postRef === postId)) {
-              setComments((exisitngComments) => [{ doc: res.documents, id: postId }, ...exisitngComments]);
+              console.log("refresh");
+
+              setComments((exisitngComments) => [{ doc: res.documents.reverse(), id: postId }, ...exisitngComments]);
             }
           }
         });
@@ -41,6 +43,8 @@ function useGetState({ postId, refresh }) {
         fetchLikes(postId).then((res) => {
           if (!likes.find((like) => like.id === res.documents.forEach((lik) => lik.$id))) {
             if (res.documents.find((like) => like.postRef === postId)) {
+              console.log("refresh");
+
               setLikes((exisitngLikes) => [{ doc: res.documents, id: postId }, ...exisitngLikes]);
             }
           }

@@ -7,14 +7,10 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 import { XIcon } from "@heroicons/react/solid";
-import { useEffect } from "react";
-import { addDoc, collection, doc, onSnapshot, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
 import Moment from "react-moment";
 import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
 import { postState } from "../atoms/PostAtom";
 import addComment from "../lib/addComment";
-import useGetState from "../hooks/useGetState";
 
 function Modal() {
   const { data: session } = useSession();
@@ -31,7 +27,6 @@ function Modal() {
     const promise = await addComment({
       comment: comment,
       tag: session.user.tag,
-      timestamp: new Date(Date.now()).toISOString(),
       userImg: session.user.image,
       username: session.user.name,
       postRef: postId,
@@ -69,7 +64,7 @@ function Modal() {
                       </div>{" "}
                       ·{" "}
                       <span className="hover:underline text-sm sm:text-[15px]">
-                        <Moment fromNow>{post?.timestamp}</Moment>
+                        <Moment fromNow>{post?.$createdAt}</Moment>
                       </span>
                       <p className="text-[#d9d9d9] text-[15px] sm:text-base">{post?.text}</p>
                     </div>

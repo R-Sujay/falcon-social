@@ -37,7 +37,6 @@ function Input() {
       userImg: session.user.image,
       tag: session.user.tag,
       text: input,
-      timestamp: new Date(Date.now()).toISOString(),
       ...(image && { image: imageUrl }),
     }).then((res) => console.log(res));
 
@@ -69,7 +68,7 @@ function Input() {
   };
 
   return (
-    <div className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide ${loading && "opacity-60"}`}>
+    <div className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide ${loading && "animate-pulse"}`}>
       <img src={session.user.image} alt="" className="h-11 w-11 rounded-full cursor-pointer" />
       <div className="divide-y divide-gray-700 w-full">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
