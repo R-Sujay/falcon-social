@@ -11,6 +11,7 @@ import Moment from "react-moment";
 import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
 import { postState } from "../atoms/PostAtom";
 import addComment from "../lib/addComment";
+import useGetState from "../hooks/useGetState";
 
 function Modal() {
   const { data: session } = useSession();
@@ -20,6 +21,7 @@ function Modal() {
   const post = posts.find((post) => post.$id === postId);
   const [comment, setComment] = useState("");
   const router = useRouter();
+  const { getPosts } = useGetState({ postId: "" });
 
   const sendComment = async (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ function Modal() {
       postRef: postId,
     }).then((res) => console.log(res));
 
+    getPosts();
     setIsOpen(false);
     setComment("");
     router.push(`/${postId}`);

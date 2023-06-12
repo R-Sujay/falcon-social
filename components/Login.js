@@ -9,7 +9,7 @@ export default function Login() {
   const [signUp, setSignUp] = useState(false);
 
   return (
-    <div className="bg-[#060933] max-h-screen overflow-hidden relative flex flex-col justify-center items-center z-0">
+    <div className="bg-[#1a0835] max-h-screen h-screen overflow-hidden relative flex flex-col justify-center items-center z-0">
       <LoginBg />
 
       <div className="flex justify-center items-center min-h-screen duration-500 z-50">
@@ -18,7 +18,7 @@ export default function Login() {
             <div className={`loginBox login:top-0 ${!signUp && "opacity-0 invisible"}`}>
               <h2 className="loginBoxH2">Already Have an Account</h2>
               <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white/10 rounded group" onClick={() => setSignUp(false)}>
-                <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#39186e] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
                 <span className="relative w-full text-left text-white transition-colors duration-300 ease-in-out group-hover:text-white">Sign in</span>
               </button>
             </div>
@@ -26,7 +26,7 @@ export default function Login() {
             <div className={`loginBox animate-fadeIn ${signUp && "opacity-0 invisible"}`}>
               <h2 className="loginBoxH2">Don't Have an Account</h2>
               <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white/10 rounded group" onClick={() => setSignUp(true)}>
-                <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#1b9bf0] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#39186e] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
                 <span className="relative w-full text-left text-white transition-colors duration-300 ease-in-out group-hover:text-white">Sign up</span>
               </button>
             </div>
