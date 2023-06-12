@@ -1,12 +1,9 @@
-import { collection, doc, onSnapshot, orderBy, query } from "@firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import { modalState } from "../atoms/modalAtom";
-// import Modal from "../components/Modal";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
-import { db } from "../firebase";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import Comment from "../components/comment";

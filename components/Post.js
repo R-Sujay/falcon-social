@@ -1,13 +1,11 @@
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc } from "@firebase/firestore";
 import { ChartBarIcon, ChatIcon, DotsHorizontalIcon, HeartIcon, ShareIcon, SwitchHorizontalIcon, TrashIcon } from "@heroicons/react/outline";
-import { HeartIcon as HeartIconFilled, ChatIcon as ChatIconFilled } from "@heroicons/react/solid";
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import useSession from "../lib/useSession";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
-import { db } from "../firebase";
 import { commentState, likeState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
 import deleteLike from "../lib/deleteLike";
@@ -92,9 +90,12 @@ function Post({ id, post, postPage }) {
           </div>
         </div>
         {postPage && <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">{post?.text}</p>}
-        <div className="w-ful min-h-[350px] relative">
-          <Image src={post?.image} alt="" className="rounded-2xl max-h-[700px] object-cover mr-2" layout="fill" />
-        </div>
+
+        {post?.image && (
+          <div className="w-ful min-h-[350px] relative">
+            <Image src={post?.image} alt="" className="rounded-2xl max-h-[700px] object-cover mr-2" layout="fill" />
+          </div>
+        )}
 
         <div className={`text-[#6e767d] flex justify-between w-10/12 ${postPage && "mx-auto"}`}>
           <div

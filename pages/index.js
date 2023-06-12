@@ -13,7 +13,7 @@ import useGetState from "../hooks/useGetState";
 
 export default function Home({ trendingResults, followResults }) {
   const isOpen = useRecoilValue(modalState);
-  const { data: session } = useSession();
+  const { data: session } = "useSession()";
   const { getPosts } = useGetState({ postId: "" });
 
   if (!session) return <Login />;

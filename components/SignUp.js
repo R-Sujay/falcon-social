@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 function SignUp() {
   const {
@@ -15,13 +16,22 @@ function SignUp() {
   return (
     <form className="loginFields" onSubmit={handleSubmit(onSubmit)}>
       <h3 className="loginTitle">Sign Up</h3>
-      <input type="text" placeholder="Username" className="loginFormInput" {...register("userName", { required: true })} />
-      <input type="email" placeholder="Email Address" className="loginFormInput" {...register("email", { required: true })} />
-      <input type="password" placeholder="Password" className="loginFormInput" {...register("password", { required: true })} />
-      <input type="password" placeholder="Confirm Password" className="loginFormInput" {...register("confirmPassword", { required: true })} />
+
+      <motion.div animate={{ x: errors.userName && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
+        <input type="text" placeholder="Username" className={`loginFormInput ${errors.userName && "loginInputError"}`} {...register("userName", { required: true })} />
+      </motion.div>
+      <motion.div animate={{ x: errors.email && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
+        <input type="email" placeholder="Email Address" className={`loginFormInput ${errors.email && "loginInputError"}`} {...register("email", { required: true })} />
+      </motion.div>
+      <motion.div animate={{ x: errors.password && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
+        <input type="password" placeholder="Password" className={`loginFormInput ${errors.password && "loginInputError"}`} {...register("password", { required: true })} />
+      </motion.div>
+      <motion.div animate={{ x: errors.confirmPassword && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
+        <input type="password" placeholder="Confirm Password" className={`loginFormInput ${errors.confirmPassword && "loginInputError"}`} {...register("confirmPassword", { required: true })} />
+      </motion.div>
 
       <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white/10 rounded group w-fit mx-auto" type="submit">
-        <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#39186e] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+        <span className="w-48 h-48 rounded rotate-[-40deg] bg-[#5a16c6] absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
         <span className="relative w-full text-left text-white transition-colors duration-300 ease-in-out group-hover:text-white">Register</span>
       </button>
     </form>
