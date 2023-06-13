@@ -12,8 +12,9 @@ import Widgets from "../components/Widgets";
 import useGetState from "../hooks/useGetState";
 import { commentState, postState } from "../atoms/PostAtom";
 import Modal from "../components/Modal";
+import HomeBg from "../components/HomeBg";
 
-function PostPage({ trendingResults, followResults }) {
+function PostPage({ jokes, followResults }) {
   const { data: session } = useSession();
   if (!session) return <Login />;
 
@@ -38,7 +39,9 @@ function PostPage({ trendingResults, followResults }) {
   }, 60000);
 
   return (
-    <div className="bg-black ">
+    <div className="relative overflow-x-hidden max-w-screen">
+      <HomeBg />
+
       <Head>
         <title>
           {post?.username} on Twitter: "{post?.text}"
@@ -46,7 +49,7 @@ function PostPage({ trendingResults, followResults }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="min-h-screen flex max-w-[1500px] mx-auto">
+      <main className="min-h-screen flex max-w-[1500px] mx-auto md:px-5 sm:p-0">
         <Sidebar />
         <div className="flex-grow border-l border-r border-gray-700 max-w-2xl sm:ml-[73px] xl:ml-[370px]">
           <div className="flex items-center px-1.5 py-2 border-b border-gray-700 text-[#d9d9d9] font-semibold text-xl gap-x-4 sticky top-0 z-50 bg-black">
@@ -66,7 +69,7 @@ function PostPage({ trendingResults, followResults }) {
             </div>
           )}
         </div>
-        <Widgets trendingResults={trendingResults} followResults={followResults} />
+        <Widgets joke={jokes} followResults={followResults} />
 
         {isOpen && <Modal />}
       </main>
@@ -77,11 +80,8 @@ function PostPage({ trendingResults, followResults }) {
 export default PostPage;
 
 export async function getServerSideProps(context) {
-  const trendingResults = [
-    { heading: "T20 World Cup 2021 · LIVE", description: "NZvAUS: New Zealand and Australia clash in the T20 World Cup final", img: "https://rb.gy/d9yjtu", tags: ["#T20WorldCupFinal, ", "Kane Williamson"] },
-    { heading: "Trending in United Arab Emirates", description: "#earthquake", img: "https://rb.gy/jvuy4v", tags: ["#DubaiAirshow, ", "#gessdubai"] },
-    { heading: "Trending in Digital Creators", description: "tubbo and quackity", img: "", tags: ["QUACKITY AND TUBBO,"] },
-  ];
+  const fetchJokes = await fetch("https://official-joke-api.appspot.com/jokes/ten").then((res) => res.json());
+  const jokes = fetchJokes.splice(0, 3);
   const followResults = [
     { userImg: "https://rb.gy/urakiy", username: "SpaceX", tag: "@SpaceX" },
     { userImg: "https://rb.gy/aluxgh", username: "Elon Musk", tag: "@elonmusk" },
@@ -90,7 +90,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      trendingResults,
+      jokes,
       followResults,
     },
   };

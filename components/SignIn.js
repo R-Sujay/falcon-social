@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 function SignIn() {
   const {
@@ -9,7 +10,25 @@ function SignIn() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const postData = {
+      email: data.email,
+      password: data.password,
+    };
+
+    const post = await fetch("/api/login", {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(postData),
+    }).then((res) => {
+      if (res.status === 401) {
+        toast.error("Invalid credentials. Please check the email and password.", {
+          style: {
+            background: "#333",
+            color: "#fff",
+          },
+        });
+      }
+    });
   };
 
   return (
@@ -17,11 +36,11 @@ function SignIn() {
       <h3 className="loginTitle">Sign In</h3>
 
       <motion.div animate={{ x: errors.userName && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
-        <input type="email" placeholder="Email" className={`loginFormInput ${errors.userName && "loginInputError"}`} {...register("userName", { required: true })} />
+        <input type="email" placeholder="Email" className={`loginFormInput ${errors.email && "loginInputError"}`} {...register("email", { required: true })} />
       </motion.div>
 
       <motion.div animate={{ x: errors.password && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
-        <input type="password" placeholder="Password" className={`loginFormInput ${errors.password && "loginInputError"}`} {...register("password", { required: true })} />
+        <input type="password" placeholder="Password" className={`loginFormInput ${errors.password && "loginInputError"}`} {...register("password", { required: true, minLength: 8 })} />
       </motion.div>
 
       <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white/10 rounded group w-fit mx-auto" type="submit">

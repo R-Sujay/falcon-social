@@ -13,6 +13,8 @@ import updateAddLike from "../lib/updateAddLike";
 import deletePost from "../lib/deletePost";
 import createLike from "../lib/createLike";
 import Image from "next/image";
+import copy from "copy-to-clipboard";
+import { toast } from "react-hot-toast";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
@@ -24,6 +26,7 @@ function Post({ id, post, postPage }) {
   const likes = useRecoilValue(likeState);
   const showEmojis = useRecoilValue(showEmojisState);
   const [loading, setLoading] = useState(false);
+  const [postUrl, setPostUrl] = useState("");
 
   const { getComments, getLikes } = useGetState({ postId: id });
 
@@ -41,6 +44,10 @@ function Post({ id, post, postPage }) {
     getComments();
     getLikes();
   }, [post]);
+
+  useEffect(() => {
+    setPostUrl(`${window.location.origin}/${id}`);
+  }, []);
 
   useEffect(() => {
     if (postLikes?.users.find((user) => session.user.uid === user)) {
@@ -70,7 +77,7 @@ function Post({ id, post, postPage }) {
 
   return (
     <div className={`p-0 px-1 py-5 sm:p-3 flex cursor-pointer bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 rounded-3xl ${loading && "animate-pulse pointer-events-none"} ${showEmojis ? "-z-10 " : "z-50"}`} onClick={() => router.push(`/${id}`)}>
-      {!postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mr-4 sm:inline hidden" />}
+      {!postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mt-3 mx-3 sm:inline hidden" />}
       <div className="flex flex-col space-y-2 w-full">
         <div className={`flex ${!postPage && "justify-between"}`}>
           {postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mr-4" />}
@@ -117,7 +124,7 @@ function Post({ id, post, postPage }) {
             {postComments?.length > 0 && <span className="group-hover:text-[#1d9bf0] text-sm">{postComments.length}</span>}
           </div>
 
-          {session.user.uid === post?.id ? (
+          {session.user.uid === post?.id && (
             <div
               className="flex items-center space-x-1 group"
               onClick={(e) => {
@@ -136,12 +143,6 @@ function Post({ id, post, postPage }) {
                 <TrashIcon className="h-5 group-hover:text-red-600" />
               </div>
             </div>
-          ) : (
-            <div className="flex items-center space-x-1 group">
-              <div className="icon group-hover:bg-green-500/10">
-                <SwitchHorizontalIcon className="h-5 group-hover:text-green-500" />
-              </div>
-            </div>
           )}
 
           <div
@@ -155,11 +156,22 @@ function Post({ id, post, postPage }) {
             {postLikes?.likeCount > 0 && <span className={`group-hover:text-pink-600 text-sm ${liked && "text-pink-600"}`}>{postLikes.likeCount}</span>}
           </div>
 
-          <div className="icon group">
+          <div
+            className="icon group"
+            onClick={(e) => {
+              e.stopPropagation();
+
+              copy(postUrl);
+
+              toast.success("Post Url Copied to Clipboard", {
+                style: {
+                  background: "#333",
+                  color: "#fff",
+                },
+              });
+            }}
+          >
             <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />
-          </div>
-          <div className="icon group">
-            <ChartBarIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
         </div>
       </div>

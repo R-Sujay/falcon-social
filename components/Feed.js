@@ -38,7 +38,7 @@ function Feed() {
 
   return (
     <div className="text-white flex-grow max-w-2xl sm:ml-24 xl:ml-[370px] animate-fadeFeedIn mt-5">
-      <div className="xl:hidden h-14">
+      <div className="xl:hidden h-14  ">
         <div className="w-min relative mx-auto">
           <motion.div layoutId={selected}>
             <ul className="list-none m-0 p-0 flex -z-50">
@@ -65,7 +65,7 @@ function Feed() {
       </div>
 
       <Input />
-      <div className="pb-72 transition-all flex flex-col space-y-5 mt-5">{searchedPosts.length > 0 ? searchedPosts.map((post) => <Post key={post.$id} id={post.$id} post={post} />) : posts.map((post) => <Post key={post.$id} id={post.$id} post={post} />)}</div>
+      <div className="pb-72 transition-all flex flex-col space-y-5 mt-5">{searchedPosts !== false ? searchedPosts.map((post) => <Post key={post.$id} id={post.$id} post={post} />) : posts.map((post) => <Post key={post.$id} id={post.$id} post={post} />)}</div>
     </div>
   );
 }

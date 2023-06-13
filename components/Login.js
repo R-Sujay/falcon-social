@@ -2,6 +2,7 @@ import { useState } from "react";
 import LoginBg from "../components/LoginBg";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { Toaster } from "react-hot-toast";
 
 export default function Login() {
   const [signUp, setSignUp] = useState(false);
@@ -9,6 +10,7 @@ export default function Login() {
   return (
     <div className="bg-[#1a0835] max-h-screen h-screen overflow-hidden relative flex flex-col justify-center items-center z-0">
       <LoginBg />
+      <Toaster />
 
       <div className="flex justify-center items-center min-h-screen duration-500 z-50">
         <div className="relative w-[800px] h-[500px] m-5 login:max-w-[400px] login:h-screen loginSm:w-[90vw] flex justify-center items-center">

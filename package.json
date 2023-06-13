@@ -9,6 +9,7 @@
                 "@headlessui/react": "^1.7.15",
                 "@heroicons/react": "^1.0.5",
                 "appwrite": "^11.0.0",
+                "copy-to-clipboard": "^3.3.3",
                 "emoji-mart": "^3.0.1",
                 "eslint-config-next": "^13.4.5",
                 "framer-motion": "^10.12.16",

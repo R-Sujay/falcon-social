@@ -10,7 +10,18 @@ function SignUp() {
 
   const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) return;
-    console.log(data);
+
+    const postData = {
+      username: data.userName,
+      email: data.email,
+      password: data.password,
+    };
+
+    const post = await fetch("/api/register", {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(postData),
+    }).catch((err) => console.log(err));
   };
 
   return (
@@ -24,10 +35,10 @@ function SignUp() {
         <input type="email" placeholder="Email Address" className={`loginFormInput ${errors.email && "loginInputError"}`} {...register("email", { required: true })} />
       </motion.div>
       <motion.div animate={{ x: errors.password && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
-        <input type="password" placeholder="Password" className={`loginFormInput ${errors.password && "loginInputError"}`} {...register("password", { required: true })} />
+        <input type="password" placeholder="Password" className={`loginFormInput ${errors.password && "loginInputError"}`} {...register("password", { required: true, minLength: 8 })} />
       </motion.div>
       <motion.div animate={{ x: errors.confirmPassword && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
-        <input type="password" placeholder="Confirm Password" className={`loginFormInput ${errors.confirmPassword && "loginInputError"}`} {...register("confirmPassword", { required: true })} />
+        <input type="password" placeholder="Confirm Password" className={`loginFormInput ${errors.confirmPassword && "loginInputError"}`} {...register("confirmPassword", { required: true, minLength: 8 })} />
       </motion.div>
 
       <button className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white/10 rounded group w-fit mx-auto" type="submit">

@@ -15,11 +15,13 @@ function Widgets({ joke, followResults }) {
 
   useEffect(() => {
     if (searchValue.length === 0) {
-      setSearchedPosts([]);
+      setSearchedPosts(false);
       return;
     }
 
     const searchResults = posts.filter((post) => post.text?.toString().toLowerCase().startsWith(searchValue.toLowerCase()));
+
+    console.log(searchResults);
     setSearchedPosts(searchResults);
   }, [searchValue]);
 
@@ -52,8 +54,8 @@ function Widgets({ joke, followResults }) {
       <div className="text-[#d9d9d9] space-y-3 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 rounded-3xl pt-2l w-11/12 xl:w-9/12 xl:max-w-[91.666667%] max-h-min">
         <h4 className="font-bold text-xl px-4">Daily Jokes</h4>
         {loading ? (
-          <div className="min-h-[320px] flex justify-center items-center">
-            <BeatLoader color="#fff" size={25} aria-label="Loading Spinner" data-testid="loader" />
+          <div className="min-h-[290px] flex justify-center items-center">
+            <BeatLoader color="#fff" size={20} aria-label="Loading Spinner" data-testid="loader" />
           </div>
         ) : (
           <>
