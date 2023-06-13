@@ -6,7 +6,7 @@ import RightTopBg from "../components/login/RightTopBg";
 
 function LoginBg() {
   return (
-    <div className="-z-10 w-full">
+    <div className="-z-10 bg-[#140726] w-screen h-screen overflow-hidden fixed">
       {/* <Image src="https://i.imgur.com/Djjy7fC.png" layout="fill" /> */}
       <div className="absolute max-h-[50%] w-1/2 -left-20 -top-3 z-50">
         <LeftTopBg />

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
-import { commentState, likeState } from "../atoms/PostAtom";
+import { commentState, likeState, showEmojisState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
 import deleteLike from "../lib/deleteLike";
 import updateAddLike from "../lib/updateAddLike";
@@ -22,6 +22,7 @@ function Post({ id, post, postPage }) {
   const [postId, setPostId] = useRecoilState(postIdState);
   const comments = useRecoilValue(commentState);
   const likes = useRecoilValue(likeState);
+  const showEmojis = useRecoilValue(showEmojisState);
   const [loading, setLoading] = useState(false);
 
   const { getComments, getLikes } = useGetState({ postId: id });
@@ -68,38 +69,42 @@ function Post({ id, post, postPage }) {
   };
 
   return (
-    <div className={`p-3 flex cursor-pointer border-b border-gray-700 ${loading && "animate-pulse pointer-events-none"}`} onClick={() => router.push(`/${id}`)}>
-      {!postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mr-4" />}
+    <div className={`p-0 px-1 py-5 sm:p-3 flex cursor-pointer bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 rounded-3xl ${loading && "animate-pulse pointer-events-none"} ${showEmojis ? "-z-10 " : "z-50"}`} onClick={() => router.push(`/${id}`)}>
+      {!postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mr-4 sm:inline hidden" />}
       <div className="flex flex-col space-y-2 w-full">
         <div className={`flex ${!postPage && "justify-between"}`}>
           {postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full mr-4" />}
 
-          <div className="text-[#6e767d]">
-            <div className="inline-block group">
-              <h4 className={`font-bold text-[15px] sm:text-base text-[#d9d9d9] group-hover:underline ${!postPage && "inline-block"}`}>{post?.username}</h4>
+          <div className="text-[#6e767d] flex">
+            {!postPage && <img src={post?.userImg} alt="" className="h-11 w-11 rounded-full sm:hidden" />}
+
+            <div className="inline-block group w-min md:w-auto sm:flex pt-3">
+              <h4 className={`font-bold text-[15px] sm:text-base text-[#d9d9d9] group-hover:underline ml-2 md:w-auto w-max ${!postPage && "inline-block"}`}>{post?.username}</h4>
               <span className={`text-sm sm:text-[15px] ${!postPage && "ml-1.5"}`}>@{post?.tag}</span>
-            </div>{" "}
-            •{" "}
-            <span className="hover:underline text-sm sm:text-[15px]">
-              <Moment fromNow>{post?.$createdAt}</Moment>
-            </span>
-            {!postPage && <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">{post?.text}</p>}
+            </div>
+            <div className="hover:underline text-sm sm:text-[15px] ml-2 flex flex-col justify-center">
+              <span>
+                • <Moment fromNow>{post?.$createdAt}</Moment>
+              </span>
+            </div>
           </div>
           <div className="icon group flex-shrink-0 ml-auto">
             <DotsHorizontalIcon className="h-5 text-[#6e767d] group-hover:text-[#1d9bf0]" />
           </div>
         </div>
+
         {postPage && <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">{post?.text}</p>}
+        {!postPage && <p className="text-[#d9d9d9] text-[15px] sm:text-base ml-14 sm:ml-2 mt-0">{post?.text}</p>}
 
         {post?.image && (
-          <div className="w-ful min-h-[350px] relative">
+          <div className="w-ful min-h-[350px] relative mx-10 mt-3 sm:mx-0">
             <Image src={post?.image} alt="" className="rounded-2xl max-h-[700px] object-cover mr-2" layout="fill" />
           </div>
         )}
 
-        <div className={`text-[#6e767d] flex justify-between w-10/12 ${postPage && "mx-auto"}`}>
+        <div className={`text-[#6e767d] flex justify-between w-10/12 ml-10 ${postPage && "mx-auto"}`}>
           <div
-            className="flex items-center space-x-1 group"
+            className="flex items-center sm:space-x-1 space-x-0 group"
             onClick={(e) => {
               e.stopPropagation();
               setPostId(id);
@@ -140,7 +145,7 @@ function Post({ id, post, postPage }) {
           )}
 
           <div
-            className="flex items-center space-x-1 group"
+            className="flex items-center space-x-0 sm:space-x-1 group"
             onClick={(e) => {
               e.stopPropagation();
               likePost();

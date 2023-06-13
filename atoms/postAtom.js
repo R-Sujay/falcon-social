@@ -5,6 +5,11 @@ export const postState = atom({
   default: [],
 });
 
+export const searchPostState = atom({
+  key: "searchPostState",
+  default: [],
+});
+
 export const likeState = atom({
   key: "likeState",
   default: [],
@@ -13,4 +18,9 @@ export const likeState = atom({
 export const commentState = atom({
   key: "commentState",
   default: [],
+});
+
+export const showEmojisState = atom({
+  key: "showEmojisState",
+  default: false,
 });

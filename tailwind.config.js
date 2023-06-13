@@ -3,20 +3,17 @@ module.exports = {
   theme: {
     extend: {
       screens: {
+        xs: "320px",
+
         sm: "640px",
-        // => @media (min-width: 640px) { ... }
 
         md: "768px",
-        // => @media (min-width: 768px) { ... }
 
         lg: "1024px",
-        // => @media (min-width: 1024px) { ... }
 
         xl: "1280px",
-        // => @media (min-width: 1280px) { ... }
 
         "2xl": "1536px",
-        // => @media (min-width: 1536px) { ... }
 
         login: { max: "991px" },
         loginSm: { max: "432px" },
@@ -24,10 +21,13 @@ module.exports = {
       transitionProperty: {
         width: "width",
         display: "visibility, opacity",
+        display: "visibility, opacity",
       },
       animation: {
         fadeIn: "fadeIn 2s",
         width: "width 0.5s",
+        widthShrink: "widthShrink 2s",
+        fadeFeedIn: "fadeFeedIn 2.5s",
       },
       keyframes: {
         fadeIn: {
@@ -37,6 +37,14 @@ module.exports = {
         width: {
           "0%": { width: "0" },
           "100%": { width: "100%" },
+        },
+        widthShrink: {
+          "0%": { width: "50%" },
+          // "100%": { width: "min" },
+        },
+        fadeFeedIn: {
+          "0%": { opacity: "0" },
+          "100%": { visibility: "1" },
         },
       },
     },

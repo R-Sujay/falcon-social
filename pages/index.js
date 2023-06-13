@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { modalState } from "../atoms/modalAtom";
+import { useRecoilValue } from "recoil";
+import { modalState, profileModalState } from "../atoms/modalAtom";
 import Feed from "../components/Feed";
 import Login from "../components/Login";
 import Modal from "../components/Modal";
@@ -10,10 +10,13 @@ import useSession from "../lib/useSession";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import useGetState from "../hooks/useGetState";
+import ProfileModal from "../components/ProfileModal";
+import HomeBg from "../components/HomeBg";
 
-export default function Home({ trendingResults, followResults }) {
+export default function Home({ jokes, followResults }) {
   const isOpen = useRecoilValue(modalState);
-  const { data: session } = "useSession()";
+  const isProfileModalOpen = useRecoilValue(profileModalState);
+  const { data: session } = useSession();
   const { getPosts } = useGetState({ postId: "" });
 
   if (!session) return <Login />;
@@ -27,7 +30,9 @@ export default function Home({ trendingResults, followResults }) {
   }, 60000);
 
   return (
-    <div className="bg-black">
+    <div className="relative overflow-x-hidden max-w-screen">
+      <HomeBg />
+
       <Head>
         <title>Twitter</title>
         <link rel="icon" href="/favicon.ico" />
@@ -35,23 +40,21 @@ export default function Home({ trendingResults, followResults }) {
 
       <Toaster />
 
-      <main className=" in-h-screen flex max-w-[1500px] mx-auto">
+      <main className="min-h-screen flex max-w-[1500px] mx-auto md:px-5 sm:p-0">
         <Sidebar />
         <Feed />
-        <Widgets trendingResults={trendingResults} followResults={followResults} />
+        <Widgets joke={jokes} followResults={followResults} />
 
         {isOpen && <Modal />}
+        {isProfileModalOpen && <ProfileModal />}
       </main>
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
-  const trendingResults = [
-    { heading: "T20 World Cup 2021 · LIVE", description: "NZvAUS: New Zealand and Australia clash in the T20 World Cup final", img: "https://i.imgur.com/IQeDZaV.jpg", tags: ["#T20WorldCupFinal, ", "Kane Williamson"] },
-    { heading: "Trending in United Arab Emirates", description: "#earthquake", img: "https://i.imgur.com/eEu1sjA.jpg", tags: ["#DubaiAirshow, ", "#gessdubai"] },
-    { heading: "Trending in Digital Creators", description: "tubbo and quackity", img: "", tags: ["QUACKITY AND TUBBO,"] },
-  ];
+  const fetchJokes = await fetch("https://official-joke-api.appspot.com/jokes/ten").then((res) => res.json());
+  const jokes = fetchJokes.splice(0, 3);
   const followResults = [
     { userImg: "https://i.imgur.com/muzGndB.jpg", username: "SpaceX", tag: "@SpaceX" },
     { userImg: "https://i.imgur.com/K8NGDtZ.jpg", username: "Elon Musk", tag: "@elonmusk" },
@@ -60,7 +63,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      trendingResults,
+      jokes,
       followResults,
     },
   };

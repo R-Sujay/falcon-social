@@ -7,6 +7,8 @@ import useSession from "../lib/useSession";
 import uploadFile from "../lib/uploadFile";
 import addPost from "../lib/addPost";
 import useGetState from "../hooks/useGetState";
+import { useRecoilState } from "recoil";
+import { showEmojisState } from "../atoms/PostAtom";
 
 function Input() {
   const [input, setInput] = useState("");
@@ -14,7 +16,7 @@ function Input() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [image, setImage] = useState(null);
   const filePickerRef = useRef(null);
-  const [showEmojis, setShowEmojis] = useState(false);
+  const [showEmojis, setShowEmojis] = useRecoilState(showEmojisState);
   const { getPosts } = useGetState({ postId: "" });
 
   const { data: session } = useSession();
@@ -68,7 +70,7 @@ function Input() {
   };
 
   return (
-    <div className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide ${loading && "animate-pulse"}`}>
+    <div className={`mt-5 py-5 px-6 z-[100] bg-clip-padding backdrop-filter backdrop-blur rounded-3xl p-3 flex space-x-3 scrollbar-hide ${loading && "animate-pulse"}`}>
       <img src={session.user.image} alt="" className="h-11 w-11 rounded-full cursor-pointer" />
       <div className="divide-y divide-gray-700 w-full">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
@@ -83,11 +85,13 @@ function Input() {
             </div>
           )}
         </div>
+
         {!loading && (
           <div className="flex items-center justify-between pt-2.5">
-            <div className="flex items-center">
+            <div className="flex items-center space-x-1">
               <div className="icon" onClick={() => filePickerRef.current.click()}>
-                {!selectedFile ? <PhotographIcon className="text-[#1d9bf0] h-[22px]" /> : <PhotographIconFilled className="text-[#1d9bf0] h-[22px]" />}
+                {!selectedFile ? <PhotographIcon className="text-gray-500 h-[22px]" /> : <PhotographIconFilled className="text-[#1d9bf0] h-[22px]" />}
+                <h1 className={`font-semibold text-sm hidden md:inline ${selectedFile ? "text-[#1d9bf0]" : "text-gray-500"}`}>Photo</h1>
                 <input
                   type="file"
                   ref={filePickerRef}
@@ -101,16 +105,9 @@ function Input() {
                 />
               </div>
 
-              <div className="icon rotate-90">
-                <ChartBarIcon className="text-[#1d9bf0] h-[22px]" />
-              </div>
-
               <div className="icon" onClick={() => setShowEmojis(!showEmojis)}>
-                {showEmojis ? <EmojiHappyIconFilled className="text-[#1d9bf0] h-[22px]" /> : <EmojiHappyIcon className="text-[#1d9bf0] h-[22px]" />}
-              </div>
-
-              <div className="icon">
-                <CalendarIcon className="text-[#1d9bf0] h-[22px]" />
+                {showEmojis ? <EmojiHappyIconFilled className="text-[#1d9bf0] h-[22px]" /> : <EmojiHappyIcon className="text-gray-500 h-[22px]" />}
+                <h1 className={`font-semibold text-sm hidden md:inline ${showEmojis ? "text-[#1d9bf0]" : "text-gray-500"}`}>Emoji</h1>
               </div>
 
               {showEmojis && (
@@ -119,9 +116,9 @@ function Input() {
                   style={{
                     position: "absolute",
                     marginTop: "465px",
-                    marginLeft: -40,
                     maxWidth: "320px",
                     borderRadius: "20px",
+                    zIndex: 2000,
                   }}
                   theme="dark"
                 />
