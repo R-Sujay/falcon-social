@@ -1,4 +1,5 @@
-import { account } from "../../appwrite";
+import { Client, Account, ID } from "appwrite";
+const sdk = require("node-appwrite");
 /**
  * Method to handle the login
  *
@@ -11,19 +12,18 @@ import { account } from "../../appwrite";
 export default async function handler(request, response) {
   try {
     //Get the request parameters
-    const body = JSON.parse(request.body);
-    console.log(body.email);
+    const body = JSON.parse(JSON.stringify(request.body));
     //Initiate the Appwrite client
-    const sdk = require("node-appwrite");
+    const client = new Client().setEndpoint(process.env.APPWRTIE_ENDPOINT).setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID);
+    const account = new Account(client);
 
-    // Initiate the user client
+    //Initiate the user client
     const userClient = new sdk.Client();
-    userClient.setEndpoint("https://cloud.appwrite.io/v1").setProject(process.env.APPWRTIE_PROJECT_ID).setKey(process.env.APPWRITE_KEY); // Your secret API key
+    userClient.setEndpoint(process.env.APPWRTIE_ENDPOINT).setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID).setKey(process.env.APPWRITE_KEY); // Your secret API key
     const users = new sdk.Users(userClient);
     const authentication = account.createEmailSession(body.email, body.password);
-
-    // Authenitcate the user using email and password
-    authentication.then(
+    //Authenitcate the user using email and password
+    await authentication.then(
       async function (authResponse) {
         console.log(authResponse);
         const promise = users.get(authResponse.userId);

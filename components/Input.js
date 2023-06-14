@@ -24,6 +24,7 @@ function Input() {
   const sendPost = async () => {
     if (loading) return;
     setLoading(true);
+    setShowEmojis(false);
 
     let imageUrl;
 
@@ -47,7 +48,6 @@ function Input() {
     setLoading(false);
     setInput("");
     setSelectedFile(null);
-    setShowEmojis(false);
   };
 
   const addImageToPost = (e) => {
@@ -74,7 +74,7 @@ function Input() {
       <img src={session.user.image} alt="" className="h-11 w-11 rounded-full cursor-pointer" />
       <div className="divide-y divide-gray-700 w-full">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
-          <textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="What's happening?" rows="2" className="bg-transparent outline-none text-[#d9d9d9] text-lg placeholder-gray-500 tracking-wide w-full min-h-[50px]" />
+          <textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="What's New?" rows="2" className="bg-transparent outline-none text-[#d9d9d9] text-lg placeholder-gray-500 tracking-wide w-full min-h-[50px]" />
 
           {selectedFile && (
             <div className="relative">
