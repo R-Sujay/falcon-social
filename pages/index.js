@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, profileModalState } from "../atoms/modalAtom";
 import Feed from "../components/Feed";
 import Login from "../components/Login";
@@ -12,12 +12,17 @@ import { useEffect } from "react";
 import useGetState from "../hooks/useGetState";
 import ProfileModal from "../components/ProfileModal";
 import HomeBg from "../components/HomeBg";
+import { motion } from "framer-motion";
+import { itemSelectedAtom } from "../atoms/headerAtom";
+import HeaderItem from "../components/HeaderItem";
+import { items } from "../constants/headerItems";
 
 export default function Home({ jokes, followResults }) {
   const isOpen = useRecoilValue(modalState);
   const isProfileModalOpen = useRecoilValue(profileModalState);
   const { data: session } = useSession();
   const { getPosts } = useGetState({ postId: "" });
+  const [selected, setSelected] = useRecoilState(itemSelectedAtom);
 
   if (!session) return <Login />;
 
@@ -42,6 +47,24 @@ export default function Home({ jokes, followResults }) {
 
       <main className="min-h-screen flex max-w-[1500px] mx-auto md:px-5 sm:p-0">
         <Sidebar />
+        <div className="lg:hidden h-14 mx-auto mt-5">
+          <div className="w-min relative mx-auto">
+            <motion.div layoutId={selected}>
+              <ul className="list-none m-0 p-0 flex -z-50">
+                {items.map((item, index) => (
+                  <HeaderItem
+                    key={index}
+                    text={item.text}
+                    isSelected={selected === item.id}
+                    onClick={() => {
+                      setSelected(item.id);
+                    }}
+                  />
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
         <Feed />
         <Widgets joke={jokes} followResults={followResults} />
 

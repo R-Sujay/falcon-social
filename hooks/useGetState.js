@@ -26,8 +26,6 @@ function useGetState({ postId }) {
         fetchComments(postId).then((res) => {
           if (!comments.find((comment) => comment.id === res.documents.forEach((com) => com.$id))) {
             if (res.documents.find((comment) => comment.postRef === postId)) {
-              console.log("refresh");
-
               setComments((exisitngComments) => [{ doc: res.documents.reverse(), id: postId }, ...exisitngComments]);
             }
           }
@@ -43,8 +41,6 @@ function useGetState({ postId }) {
         fetchLikes(postId).then((res) => {
           if (!likes.find((like) => like.id === res.documents.forEach((lik) => lik.$id))) {
             if (res.documents.find((like) => like.postRef === postId)) {
-              console.log("refresh");
-
               setLikes((exisitngLikes) => [{ doc: res.documents, id: postId }, ...exisitngLikes]);
             }
           }

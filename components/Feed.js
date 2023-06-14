@@ -3,22 +3,18 @@ import Post from "./Post";
 import { toast } from "react-hot-toast";
 import { RefreshIcon } from "@heroicons/react/solid";
 import { useRecoilValue } from "recoil";
-import { postState, searchPostState } from "../atoms/PostAtom";
+import { isSearchingState, postState, searchPostState, showEmojisState } from "../atoms/PostAtom";
 import useGetState from "../hooks/useGetState";
-import { motion } from "framer-motion";
-import HeaderItem from "./HeaderItem";
-import { useState } from "react";
-
-const items = [
-  { text: "About", id: 0 },
-  { text: "Projects", id: 1 },
-];
+import { itemSelectedAtom } from "../atoms/headerAtom";
+import FlipMove from "react-flip-move";
 
 function Feed() {
-  const posts = useRecoilValue(postState);
   const { getPosts } = useGetState({ postId: "" });
+  const posts = useRecoilValue(postState);
   const searchedPosts = useRecoilValue(searchPostState);
-  const [selected, setSelected] = useState(items[0].id);
+  const isSearching = useRecoilValue(isSearchingState);
+  const selected = useRecoilValue(itemSelectedAtom);
+  const showEmojis = useRecoilValue(showEmojisState);
 
   const handleRefresh = () => {
     const refreshToast = toast.loading("Refreshing...", {
@@ -35,29 +31,12 @@ function Feed() {
       id: refreshToast,
     });
   };
+  console.log(isSearching === true);
+  console.log(searchedPosts);
 
   return (
-    <div className="text-white flex-grow max-w-2xl sm:ml-24 xl:ml-[370px] animate-fadeFeedIn mt-5">
-      <div className="xl:hidden h-14  ">
-        <div className="w-min relative mx-auto">
-          <motion.div layoutId={selected}>
-            <ul className="list-none m-0 p-0 flex -z-50">
-              {items.map((item, index) => (
-                <HeaderItem
-                  key={index}
-                  text={item.text}
-                  isSelected={selected === item.id}
-                  onClick={() => {
-                    setSelected(item.id);
-                  }}
-                />
-              ))}
-            </ul>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="text-[#d9d9d9] flex items-center sm:justify-between py-2 px-10 sticky top-0 z-50 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 rounded-3xl">
+    <div className={`text-white flex-grow lg:max-w-2xl w-[93%] xs:w-[95%] sm:!w-[83%] sm:ml-24 xl:ml-[20%] xl:mr-[5%] animate-fadeFeedIn mt-20 lg:mt-5 mx-3 sm:mx-0 absolute lg:relative lg:mr-5 transition-all xl:left-[5%] ${selected === 1 && "-left-full lg:left-[50%] xl:left-[48%] left-move"}`}>
+      <div className="text-[#d9d9d9] flex items-center sm:justify-between py-2 px-5 sm:px-10 sticky top-0 z-[100] bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 rounded-3xl">
         <h2 className="text-lg sm:text-xl font-bold">Home</h2>
         <div className="hoverAnimation w-12 h-12 flex items-center justify-center xl:px-0 ml-auto">
           <RefreshIcon className="h-8 text-white" onClick={() => handleRefresh()} />
@@ -65,7 +44,7 @@ function Feed() {
       </div>
 
       <Input />
-      <div className="pb-72 transition-all flex flex-col space-y-5 mt-5">{searchedPosts !== false ? searchedPosts.map((post) => <Post key={post.$id} id={post.$id} post={post} />) : posts.map((post) => <Post key={post.$id} id={post.$id} post={post} />)}</div>
+      <FlipMove className={`pb-72 transition-all flex flex-col space-y-5 mt-5 ${showEmojis && "hidden"}`}>{isSearching ? searchedPosts.map((post) => <Post key={post.$id} id={post.$id} post={post} />) : posts.map((post) => <Post key={post.$id} id={post.$id} post={post} />)}</FlipMove>
     </div>
   );
 }

@@ -10,6 +10,11 @@ export const searchPostState = atom({
   default: [],
 });
 
+export const isSearchingState = atom({
+  key: "isSearchingState",
+  default: false,
+});
+
 export const likeState = atom({
   key: "likeState",
   default: [],

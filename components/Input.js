@@ -70,7 +70,7 @@ function Input() {
   };
 
   return (
-    <div className={`mt-5 py-5 px-6 z-[100] bg-clip-padding backdrop-filter backdrop-blur rounded-3xl p-3 flex space-x-3 scrollbar-hide ${loading && "animate-pulse"}`}>
+    <div className={`mt-5 py-5 px-6 z-[300] bg-clip-padding backdrop-filter backdrop-blur rounded-3xl p-3 flex space-x-3 scrollbar-hide ${loading && "animate-pulse"}`}>
       <img src={session.user.image} alt="" className="h-11 w-11 rounded-full cursor-pointer" />
       <div className="divide-y divide-gray-700 w-full">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
@@ -111,21 +111,21 @@ function Input() {
               </div>
 
               {showEmojis && (
-                <Picker
-                  onSelect={addEmoji}
-                  style={{
-                    position: "absolute",
-                    marginTop: "465px",
-                    maxWidth: "320px",
-                    borderRadius: "20px",
-                    zIndex: 2000,
-                  }}
-                  theme="dark"
-                />
+                <div className="z-[2000] absolute mt-[465px]">
+                  <Picker
+                    onSelect={addEmoji}
+                    style={{
+                      maxWidth: "320px",
+                      borderRadius: "20px",
+                      zIndex: 2000,
+                    }}
+                    theme="dark"
+                  />
+                </div>
               )}
             </div>
             <button className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default" disabled={!input && !selectedFile} onClick={sendPost}>
-              Tweet
+              Post
             </button>
           </div>
         )}

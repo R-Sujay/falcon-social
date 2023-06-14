@@ -21,7 +21,7 @@ module.exports = {
       transitionProperty: {
         width: "width",
         display: "visibility, opacity",
-        display: "visibility, opacity",
+        absolute: "left, right",
       },
       animation: {
         fadeIn: "fadeIn 2s",

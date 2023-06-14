@@ -17,7 +17,7 @@ function HomeBg() {
       <div className="absolute w-20 h-20 rounded-full left-[80vw] top-[20%] bg-gradient" />
       <div className="absolute w-20 h-20 rounded-full left-[50vw] top-[80%] bg-gradient hidden lg:inline" />
       <div className="z-50 absolute w-20 h-20 rounded-full left-[60vw] bottom-[20%] bg-gradient" />
-      <div className="z-50 absolute w-14 h-14 rounded-full left-[40vw] bottom-[20%] bg-gradient hidden lg:inline" />
+      <div className="z-50 absolute w-14 h-14 rounded-full left-[56vw] bottom-[35%] bg-gradient hidden lg:inline" />
       <div className="z-50 absolute w-14 h-14 rounded-full left-[30vw] bottom-[5%] bg-gradient" />
     </div>
   );
