@@ -9,7 +9,7 @@ import { Fragment } from "react";
 import { XIcon } from "@heroicons/react/solid";
 import Moment from "react-moment";
 import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
-import { postState } from "../atoms/PostAtom";
+import { postState } from "../atoms/postAtom";
 import addComment from "../lib/addComment";
 import useGetState from "../hooks/useGetState";
 

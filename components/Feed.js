@@ -3,7 +3,7 @@ import Post from "./Post";
 import { toast } from "react-hot-toast";
 import { RefreshIcon } from "@heroicons/react/solid";
 import { useRecoilValue } from "recoil";
-import { isSearchingState, postState, searchPostState, showEmojisState } from "../atoms/PostAtom";
+import { isSearchingState, postState, searchPostState, showEmojisState } from "../atoms/postAtom";
 import useGetState from "../hooks/useGetState";
 import { itemSelectedAtom } from "../atoms/headerAtom";
 import FlipMove from "react-flip-move";

@@ -3,7 +3,7 @@ import Joke from "./Joke";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { isSearchingState, postState, searchPostState } from "../atoms/PostAtom";
+import { isSearchingState, postState, searchPostState } from "../atoms/postAtom";
 import { BeatLoader } from "react-spinners";
 import { useRouter } from "next/router";
 import { itemSelectedAtom } from "../atoms/headerAtom";

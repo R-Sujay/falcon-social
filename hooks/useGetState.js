@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { commentState, likeState, postState } from "../atoms/PostAtom";
+import { commentState, likeState, postState } from "../atoms/postAtom";
 import { debounce } from "lodash";
 import fetchPosts from "../lib/fetchPosts";
 import fetchComments from "../lib/fetchComments";

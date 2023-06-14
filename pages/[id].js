@@ -10,7 +10,7 @@ import Comment from "../components/comment";
 import useSession from "../lib/useSession";
 import Widgets from "../components/Widgets";
 import useGetState from "../hooks/useGetState";
-import { commentState, postState } from "../atoms/PostAtom";
+import { commentState, postState } from "../atoms/postAtom";
 import Modal from "../components/Modal";
 import HomeBg from "../components/HomeBg";
 import FlipMove from "react-flip-move";

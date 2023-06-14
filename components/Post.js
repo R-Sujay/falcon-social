@@ -6,7 +6,7 @@ import { forwardRef, useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
-import { commentState, likeState, showEmojisState } from "../atoms/PostAtom";
+import { commentState, likeState, showEmojisState } from "../atoms/postAtom";
 import useGetState from "../hooks/useGetState";
 import deleteLike from "../lib/deleteLike";
 import updateAddLike from "../lib/updateAddLike";

@@ -8,7 +8,7 @@ import uploadFile from "../lib/uploadFile";
 import addPost from "../lib/addPost";
 import useGetState from "../hooks/useGetState";
 import { useRecoilState } from "recoil";
-import { showEmojisState } from "../atoms/PostAtom";
+import { showEmojisState } from "../atoms/postAtom";
 
 function Input() {
   const [input, setInput] = useState("");
