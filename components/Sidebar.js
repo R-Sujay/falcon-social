@@ -13,30 +13,29 @@ function Sidebar() {
   const [modal, setModal] = useRecoilState(profileModalState);
 
   return (
-    <div className="hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full animate-widthShrink z-[100]">
-      <div className="flex items-center justify-center w-14 h-14 hoverAnimation p-0 xl:ml-24">
+    <div className="hidden sm:flex flex-col mr-1 items-center xl:items-start xl:w-[340px] p-2 fixed h-full animate-widthShrink z-[100]">
+      <div className="flex items-center ml-5 justify-center w-14 h-14 hoverAnimation p-0 xl:ml-24">
         <Image src="https://rb.gy/ogau5a" width={30} height={30} onClick={() => router.push("/")} />
       </div>
-      <div className="space-y-2.5 mt-4 mb-2.5 xl:ml-24">
-        <SidebarLink text="Home" Icon={HomeIcon} active />
-        <SidebarLink text="Explore" Icon={HashtagIcon} />
-        <SidebarLink text="Notifications" Icon={BellIcon} />
-        <SidebarLink text="Messages" Icon={InboxIcon} />
-        <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
-        <SidebarLink text="Lists" Icon={ClipboardListIcon} />
-        <SidebarLink text="Profile" Icon={UserIcon} />
-        <SidebarLink text="More" Icon={DotsCircleHorizontalIcon} />
-      </div>
-      <button className="hidden xl:inline bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8] mr-auto ml-[100px]">Tweet</button>
 
-      <div className="flex justify-start items-center h-min w-full mt-auto mb-5 pl-20">
-        <div className="text-[#d9d9d9] flex items-center justify-center hoverAnimation w-max xl:-mr-3" onClick={() => setModal(true)}>
-          <img src={session.user.image} alt="" className="h-10 w-10 rounded-full xl:mr-2.5" />
-          <div className="hidden xl:inline leading-5">
-            <h4 className="font-bold">{session.user.name}</h4>
-            <p className="text-[#6e767d]">@{session.user.tag}</p>
+      <div className="mt-auto mb-8 xl:hidden" onClick={() => setModal(true)}>
+        <img src={session.user.image} alt="" className="h-10 w-10 rounded-full ml-5" />
+      </div>
+
+      <div className="hidden xl:flex justify-between items-center h-full w-full pl-20">
+        <div className="text-[#d9d9d9] items-center justify-center hoverAnimation py-5 rounded-3xl w-full xl:-mr-3">
+          <img src={session.user.image} alt="" className="h-56 w-56 rounded-3xl mx-auto mb-5 object-cover" />
+          <div className="hidden xl:inline leading-5 text-center">
+            <h4 className="font-bold text-2xl">{session.user.name}</h4>
+            <p className="text-[#6e767d] text-lg">@{session.user.tag}</p>
           </div>
-          <DotsHorizontalIcon className="h-5 hidden xl:inline-flex ml-10" />
+          {/* <DotsHorizontalIcon className="h-5 hidden xl:inline-flex ml-10" /> */}
+
+          <div className="flex flex-col mt-5 items-center w-full mx-auto">
+            <div className="w-full max-w-[85%]">
+              <button className="text-gray-200 w-full bg-red-600 hover:bg-transparent border-red-600 hover:border transition-all rounded-3xl py-2">Sign Out</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

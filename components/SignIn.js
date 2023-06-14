@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 function SignIn() {
   const {
@@ -15,19 +16,32 @@ function SignIn() {
       password: data.password,
     };
 
+    // const res = await axios
+    //   .post("/api/login", postData, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
     const post = await fetch("/api/login", {
       method: "POST",
       mode: "cors",
       body: JSON.stringify(postData),
-    }).then((res) => {
-      if (res.status === 401) {
-        toast.error("Invalid credentials. Please check the email and password.", {
+    }).then(function (serverPromise) {
+      serverPromise.json().then(function (j) {
+        toast.error(j.status, {
           style: {
             background: "#333",
             color: "#fff",
           },
         });
-      }
+      });
     });
   };
 

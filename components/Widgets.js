@@ -7,8 +7,9 @@ import { isSearchingState, postState, searchPostState } from "../atoms/PostAtom"
 import { BeatLoader } from "react-spinners";
 import { useRouter } from "next/router";
 import { itemSelectedAtom } from "../atoms/headerAtom";
+import Trending from "./Trending";
 
-function Widgets({ joke, followResults }) {
+function Widgets({ joke }) {
   const [searchValue, setSearchValue] = useState("");
   const [searchedPosts, setSearchedPosts] = useRecoilState(searchPostState);
   const [isSearching, setIsSearching] = useRecoilState(isSearchingState);
@@ -17,6 +18,11 @@ function Widgets({ joke, followResults }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const selected = useRecoilValue(itemSelectedAtom);
+  const trendingResults = [
+    { heading: "T20 World Cup 2021 · LIVE", description: "NZvAUS: New Zealand and Australia clash in the T20 World Cup final", img: "https://i.imgur.com/IQeDZaV.jpg", tags: ["#T20WorldCupFinal, ", "Kane Williamson"] },
+    { heading: "Trending in United Arab Emirates", description: "#earthquake", img: "https://i.imgur.com/eEu1sjA.jpg", tags: ["#DubaiAirshow, ", "#gessdubai"] },
+    { heading: "Trending in Digital Creators", description: "tubbo and quackity", img: "", tags: ["QUACKITY AND TUBBO,"] },
+  ];
 
   const fetchMoreJokes = async () => {
     setLoading(true);
@@ -81,17 +87,10 @@ function Widgets({ joke, followResults }) {
         )}
       </div>
 
-      <div className="text-[#d9d9d9] space-y-3 bg-clip-padding backdrop-filter backdrop-blur-2xl bg-opacity-10 rounded-3xl pt-2 w-11/12 xl:w-9/12 max-w-[91.666667%]">
-        <h4 className="font-bold text-xl px-4">Who to follow</h4>
-        {followResults.map((result, index) => (
-          <div className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-2 cursor-pointer transition duration-200 ease-out flex items-center" key={index}>
-            <Image src={result.userImg} width={50} height={50} objectFit="cover" className="rounded-full" />
-            <div className="ml-4 leading-5 group">
-              <h4 className="font-bold group-hover:underline">{result.username}</h4>
-              <h5 className="text-gray-500 text-[15px]">{result.tag}</h5>
-            </div>
-            <button className="ml-auto bg-white text-black rounded-full font-bold text-sm py-1.5 px-3.5">Follow</button>
-          </div>
+      <div className="text-[#d9d9d9] space-y-3 bg-clip-padding pt-3 backdrop-filter backdrop-blur-3xl bg-opacity-10 rounded-3xl w-11/12 xl:w-9/12">
+        <h4 className="font-bold text-xl px-4">What's happening</h4>
+        {trendingResults.map((result, index) => (
+          <Trending key={index} result={result} />
         ))}
         <button className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-3 cursor-pointer transition duration-200 ease-out flex items-center justify-between w-full text-[#1d9bf0] font-light">Show more</button>
       </div>

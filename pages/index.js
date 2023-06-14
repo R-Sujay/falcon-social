@@ -17,12 +17,12 @@ import { itemSelectedAtom } from "../atoms/headerAtom";
 import HeaderItem from "../components/HeaderItem";
 import { items } from "../constants/headerItems";
 
-export default function Home({ jokes, followResults }) {
+export default function Home({ jokes }) {
   const isOpen = useRecoilValue(modalState);
-  const isProfileModalOpen = useRecoilValue(profileModalState);
   const { data: session } = useSession();
   const { getPosts } = useGetState({ postId: "" });
   const [selected, setSelected] = useRecoilState(itemSelectedAtom);
+  const [isProfileModalOpen, setModal] = useRecoilState(profileModalState);
 
   if (!session) return <Login />;
 
@@ -47,8 +47,8 @@ export default function Home({ jokes, followResults }) {
 
       <main className="min-h-screen flex max-w-[1500px] mx-auto md:px-5 sm:p-0">
         <Sidebar />
-        <div className="lg:hidden h-14 mx-auto mt-5">
-          <div className="w-min relative mx-auto">
+        <div className="lg:hidden h-14 ml-3 sm:mx-auto sm:ml-auto mt-5">
+          <div className="w-[90vw] sm:w-min relative xs:mx-auto flex justify-between items-center">
             <motion.div layoutId={selected}>
               <ul className="list-none m-0 p-0 flex -z-50">
                 {items.map((item, index) => (
@@ -63,10 +63,13 @@ export default function Home({ jokes, followResults }) {
                 ))}
               </ul>
             </motion.div>
+            <div className="mt-auto sm:hidden w-10 ml-auto" onClick={() => setModal(true)}>
+              <img src={session.user.image} alt="" className="h-10 w-10 rounded-full" />
+            </div>
           </div>
         </div>
         <Feed />
-        <Widgets joke={jokes} followResults={followResults} />
+        <Widgets joke={jokes} />
 
         {isOpen && <Modal />}
         {isProfileModalOpen && <ProfileModal />}
@@ -78,16 +81,10 @@ export default function Home({ jokes, followResults }) {
 export async function getServerSideProps(context) {
   const fetchJokes = await fetch("https://official-joke-api.appspot.com/jokes/ten").then((res) => res.json());
   const jokes = fetchJokes.splice(0, 3);
-  const followResults = [
-    { userImg: "https://i.imgur.com/muzGndB.jpg", username: "SpaceX", tag: "@SpaceX" },
-    { userImg: "https://i.imgur.com/K8NGDtZ.jpg", username: "Elon Musk", tag: "@elonmusk" },
-    { userImg: "https://i.imgur.com/XSpr1pu.png", username: "Tesla", tag: "@Tesla" },
-  ];
 
   return {
     props: {
       jokes,
-      followResults,
     },
   };
 }
