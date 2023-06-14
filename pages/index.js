@@ -78,7 +78,7 @@ export default function Home({ jokes }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const fetchJokes = await fetch("https://official-joke-api.appspot.com/jokes/ten").then((res) => res.json());
   const jokes = fetchJokes.splice(0, 3);
 

@@ -1,5 +1,4 @@
 // pages/_app.js
-import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 import "../styles/globals.css";
 import ProgressBar from "@badrap/bar-of-progress";
@@ -16,12 +15,10 @@ Router.events.on("routeChangeStart", progess.start);
 Router.events.on("routeChangeComplete", progess.finish);
 Router.events.on("routeChangeError", progess.finish);
 
-export default function App({ Component, pageProps: { session, ...pageProps } }) {
+export default function App({ Component, pageProps: { ...pageProps } }) {
   return (
-    <SessionProvider session={session}>
-      <RecoilRoot>
-        <Component {...pageProps} />
-      </RecoilRoot>
-    </SessionProvider>
+    <RecoilRoot>
+      <Component {...pageProps} />
+    </RecoilRoot>
   );
 }
