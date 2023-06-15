@@ -31,8 +31,6 @@ function Feed() {
       id: refreshToast,
     });
   };
-  console.log(isSearching === true);
-  console.log(searchedPosts);
 
   return (
     <div className={`text-white flex-grow lg:max-w-2xl w-[93%] xs:w-[95%] sm:!w-[83%] sm:ml-24 xl:ml-[21%] xl:mr-[5%] animate-fadeFeedIn mt-20 lg:mt-5 mx-3 sm:mx-0 absolute lg:relative lg:mr-5 transition-all xl:left-[5%] ${selected === 1 && "-left-full lg:left-[50%] xl:left-[48%] left-move"}`}>

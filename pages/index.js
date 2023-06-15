@@ -16,23 +16,33 @@ import { motion } from "framer-motion";
 import { itemSelectedAtom } from "../atoms/headerAtom";
 import HeaderItem from "../components/HeaderItem";
 import { items } from "../constants/headerItems";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 export default function Home({ jokes }) {
-  const isOpen = useRecoilValue(modalState);
+  const router = useRouter();
+  const { registered } = router.query;
   const { data: session } = useSession();
+  const isOpen = useRecoilValue(modalState);
   const { getPosts } = useGetState({ postId: "" });
   const [selected, setSelected] = useRecoilState(itemSelectedAtom);
   const [isProfileModalOpen, setModal] = useRecoilState(profileModalState);
 
-  if (!session) return <Login />;
+  console.log(session);
 
   useEffect(() => {
-    getPosts();
+    if (session) {
+      getPosts();
+    }
   }, []);
 
   setInterval(() => {
-    getPosts();
+    if (session) {
+      getPosts();
+    }
   }, 60000);
+
+  if (session === null) return <Login registered={registered === "true" && true} />;
 
   return (
     <div className="relative overflow-x-hidden max-w-screen">

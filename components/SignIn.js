@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
-import axios from "axios";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 function SignIn() {
   const {
@@ -9,40 +10,42 @@ function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
 
   const onSubmit = async (data) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
     const postData = {
       email: data.email,
       password: data.password,
     };
 
-    // const res = await axios
-    //   .post("/api/login", postData, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
-    const post = await fetch("/api/login", {
+    const requestOptions = {
       method: "POST",
-      mode: "cors",
+      headers: myHeaders,
       body: JSON.stringify(postData),
-    }).then(function (serverPromise) {
-      serverPromise.json().then(function (j) {
-        toast.error(j.status, {
-          style: {
-            background: "#333",
-            color: "#fff",
-          },
-        });
+      redirect: "follow",
+    };
+
+    const post = await fetch("/api/login", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        var res = result;
+        if (result.error) {
+          toast.error(result.status, {
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          });
+        } else {
+          res.time = new Date(Date.now());
+
+          setCookie("user", res);
+          router.push("/");
+        }
       });
-    });
   };
 
   return (

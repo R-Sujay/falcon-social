@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 function SignUp() {
   const {
@@ -7,6 +9,7 @@ function SignUp() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
 
   const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) return;
@@ -21,7 +24,23 @@ function SignUp() {
       method: "POST",
       mode: "cors",
       body: JSON.stringify(postData),
-    }).catch((err) => console.log(err));
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          toast.error(result.status, {
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          });
+        } else {
+          router.push({
+            pathname: "/",
+            query: { registered: "true" },
+          });
+        }
+      });
   };
 
   return (
@@ -29,7 +48,7 @@ function SignUp() {
       <h3 className="loginTitle">Sign Up</h3>
 
       <motion.div animate={{ x: errors.userName && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
-        <input type="text" placeholder="Username" className={`loginFormInput ${errors.userName && "loginInputError"}`} {...register("userName", { required: true })} />
+        <input type="text" placeholder="Username" className={`loginFormInput ${errors.userName && "loginInputError"}`} {...register("userName", { required: true, maxLength: 215 })} />
       </motion.div>
       <motion.div animate={{ x: errors.email && [0, 20, -20, 20, -20, 0] }} transition={{ duration: 0.5 }}>
         <input type="email" placeholder="Email Address" className={`loginFormInput ${errors.email && "loginInputError"}`} {...register("email", { required: true })} />

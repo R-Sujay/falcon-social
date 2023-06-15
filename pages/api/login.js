@@ -38,12 +38,12 @@ export default async function handler(request, response) {
             });
           },
           function (error) {
-            response.status(error.response.code).json({ status: error.response.message });
+            response.status(error.response.code).json({ status: error.response.message, error: true });
           }
         );
       },
       function (error) {
-        response.status(error.response.code).json({ status: error.response.message });
+        response.status(error.response.code).json({ status: error.response.message, error: true });
       }
     );
   } catch (error) {

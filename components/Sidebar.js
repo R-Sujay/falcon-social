@@ -1,12 +1,9 @@
-import Image from "next/image";
-import SidebarLink from "./SidebarLink";
-import { DotsHorizontalIcon, HomeIcon } from "@heroicons/react/solid";
-import { BellIcon, BookmarkIcon, ClipboardListIcon, DotsCircleHorizontalIcon, HashtagIcon, InboxIcon, UserIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import useSession from "../lib/useSession";
 import { useRecoilState } from "recoil";
 import { profileModalState } from "../atoms/modalAtom";
 import Logo from "./Logo";
+import { setCookie } from "cookies-next";
 
 function Sidebar() {
   const router = useRouter();
@@ -35,7 +32,15 @@ function Sidebar() {
 
           <div className="flex flex-col mt-5 items-center w-full mx-auto">
             <div className="w-full max-w-[85%]">
-              <button className="text-gray-200 w-full bg-red-600 hover:bg-transparent border-red-600 hover:border transition-all rounded-3xl py-2">Sign Out</button>
+              <button
+                className="text-gray-200 w-full bg-red-600 hover:bg-transparent border-red-600 hover:border transition-all rounded-3xl py-2"
+                onClick={() => {
+                  setCookie("user", null);
+                  router.reload();
+                }}
+              >
+                Sign Out
+              </button>
             </div>
           </div>
         </div>

@@ -2,10 +2,18 @@ import { useState } from "react";
 import LoginBg from "../components/LoginBg";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 
-export default function Login() {
+export default function Login({ registered }) {
   const [signUp, setSignUp] = useState(false);
+  if (registered) {
+    toast.success("Registration Successful, Login to Continue", {
+      style: {
+        background: "#333",
+        color: "#fff",
+      },
+    });
+  }
 
   return (
     <div className="bg-[#1a0835] max-h-screen h-screen overflow-hidden relative flex flex-col justify-center items-center z-0">
