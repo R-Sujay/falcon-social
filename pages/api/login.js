@@ -25,11 +25,9 @@ export default async function handler(request, response) {
     //Authenitcate the user using email and password
     await authentication.then(
       async function (authResponse) {
-        console.log(authResponse);
         const promise = users.get(authResponse.userId);
         await promise.then(
           function (userResponse) {
-            console.log(userResponse);
             response.status(200).json({
               status: "Success",
               name: userResponse.name,
@@ -47,7 +45,6 @@ export default async function handler(request, response) {
       }
     );
   } catch (error) {
-    console.log(error);
     response.status(500).json({ message: "Error occured. Try again later!" });
   }
 }

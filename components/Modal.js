@@ -32,7 +32,7 @@ function Modal() {
       userImg: session.user.image,
       username: session.user.name,
       postRef: postId,
-    }).then((res) => console.log(res));
+    });
 
     getPosts();
     setIsOpen(false);

@@ -5,24 +5,10 @@ import { useRecoilState } from "recoil";
 import { profileModalState } from "../atoms/modalAtom";
 import { Fragment } from "react";
 import { XIcon } from "@heroicons/react/solid";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
 
 function ProfileModal() {
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useRecoilState(profileModalState);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
-
-  const userInput = watch("userName");
-
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
 
   return (
     <Transition.Root show={isModalOpen} as={Fragment}>
@@ -43,7 +29,7 @@ function ProfileModal() {
               </div>
 
               <div className="flex px-0 pt-5 pb-2.5 sm:px-6 w-full flex-1">
-                <form className="w-full min-h-full flex flex-col sm:flex-row" onSubmit={handleSubmit(onSubmit)}>
+                <form className="w-full min-h-full flex flex-col sm:flex-row">
                   <div className=" flex justify-center items-center">
                     <div className="relative sm:w-40 sm:h-40 md:w-80 md:h-80 w-full h-full mx-5 sm:max-w-none max-w-[200px]">
                       <img src={session.user.image} layout="fill" className="object-cover rounded-full" />

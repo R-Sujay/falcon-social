@@ -28,8 +28,6 @@ export default function Home({ jokes }) {
   const [selected, setSelected] = useRecoilState(itemSelectedAtom);
   const [isProfileModalOpen, setModal] = useRecoilState(profileModalState);
 
-  console.log(session);
-
   useEffect(() => {
     if (session) {
       getPosts();

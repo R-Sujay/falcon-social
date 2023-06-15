@@ -41,7 +41,7 @@ function Input() {
       tag: session.user.tag,
       text: input,
       ...(image && { image: imageUrl }),
-    }).then((res) => console.log(res));
+    });
 
     getPosts();
 

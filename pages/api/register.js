@@ -23,12 +23,10 @@ export default async function handler(request, response) {
       },
       function (error) {
         //Error handling
-        console.log(error);
         response.status(error.response.code).json({ status: error.response.message, error: true });
       }
     );
   } catch (error) {
-    console.log(error);
     response.status(500).json({ message: "Error occured. Try again later!" });
   }
 }
