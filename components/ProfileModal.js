@@ -5,9 +5,12 @@ import { useRecoilState } from "recoil";
 import { profileModalState } from "../atoms/modalAtom";
 import { Fragment } from "react";
 import { XIcon } from "@heroicons/react/solid";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 function ProfileModal() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useRecoilState(profileModalState);
 
   return (
@@ -43,7 +46,15 @@ function ProfileModal() {
                     </div>
 
                     <div className="mb-10 w-full max-w-[85%]">
-                      <button className="text-gray-200 w-full bg-red-600 hover:bg-transparent border-red-600 hover:border transition-all rounded-3xl py-2">Sign Out</button>
+                      <button
+                        className="text-gray-200 w-full bg-red-600 hover:bg-transparent border-red-600 hover:border transition-all rounded-3xl py-2"
+                        onClick={() => {
+                          setCookie("user", null);
+                          router.reload();
+                        }}
+                      >
+                        Sign Out
+                      </button>
                     </div>
                   </div>
                 </form>
