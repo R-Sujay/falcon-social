@@ -14,16 +14,22 @@ import { commentState, postState } from "../atoms/postAtom";
 import Modal from "../components/Modal";
 import HomeBg from "../components/HomeBg";
 import FlipMove from "react-flip-move";
+import Login from "../components/Login";
 
 function PostPage({ jokes, followResults }) {
   const { data: session } = useSession();
-  if (!session) return <Login />;
-
   const isOpen = useRecoilValue(modalState);
   const router = useRouter();
   const { id } = router.query;
 
   const { getPosts } = useGetState({ postId: "" });
+
+  useEffect(() => {
+    if (session) {
+      getPosts();
+    }
+  }, []);
+
   const posts = useRecoilValue(postState);
   const post = posts.find((post) => post.$id === id);
 
@@ -31,12 +37,12 @@ function PostPage({ jokes, followResults }) {
   const postFoundComments = comments.find((comment) => comment.id === id);
   const postComments = postFoundComments?.doc;
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+  if (session === null) return <Login />;
 
   setInterval(() => {
-    getPosts();
+    if (session) {
+      getPosts();
+    }
   }, 60000);
 
   return (
