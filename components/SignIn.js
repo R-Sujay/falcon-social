@@ -13,6 +13,13 @@ function SignIn() {
   const router = useRouter();
 
   const onSubmit = async (data) => {
+    const loginToast = toast.loading("Signing In...", {
+      style: {
+        background: "#333",
+        color: "#fff",
+      },
+    });
+
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -34,12 +41,20 @@ function SignIn() {
         var res = result;
         if (result.error) {
           toast.error(result.status, {
+            id: loginToast,
             style: {
               background: "#333",
               color: "#fff",
             },
           });
         } else {
+          toast.success("Signed In!", {
+            id: loginToast,
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          });
           res.time = new Date(Date.now());
 
           setCookie("user", res);

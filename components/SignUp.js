@@ -12,7 +12,23 @@ function SignUp() {
   const router = useRouter();
 
   const onSubmit = async (data) => {
-    if (data.password !== data.confirmPassword) return;
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password and Confirm Password are not the same.", {
+        style: {
+          background: "#333",
+          color: "#fff",
+        },
+      });
+
+      return;
+    }
+
+    const registeringToast = toast.loading("Registering...", {
+      style: {
+        background: "#333",
+        color: "#fff",
+      },
+    });
 
     const postData = {
       username: data.userName,
@@ -29,12 +45,20 @@ function SignUp() {
       .then((result) => {
         if (result.error) {
           toast.error(result.status, {
+            id: registeringToast,
             style: {
               background: "#333",
               color: "#fff",
             },
           });
         } else {
+          toast.success("Registered!", {
+            id: registeringToast,
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          });
           router.push({
             pathname: "/",
             query: { registered: "true" },

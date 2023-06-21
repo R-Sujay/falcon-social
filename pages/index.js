@@ -47,7 +47,7 @@ export default function Home({ jokes }) {
       <HomeBg />
 
       <Head>
-        <title>Twitter</title>
+        <title>Falcon Social</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

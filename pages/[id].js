@@ -45,7 +45,7 @@ function PostPage({ jokes, followResults }) {
 
       <Head>
         <title>
-          {post?.username} on Twitter: "{post?.text}"
+          {post?.username} on Falcon Social: "{post?.text}"
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
