@@ -12,7 +12,7 @@ function Sidebar() {
 
   return (
     <div className="hidden sm:flex flex-col mr-1 items-center xl:items-start xl:w-[340px] p-2 fixed h-full animate-widthShrink z-[100]">
-      <div className="flex items-center ml-5 justify-center w-20 h-20 hoverAnimation p-0 xl:ml-24">
+      <div className="flex items-center ml-5 justify-center lg:w-14 lg:h-14 lg:mt-3 xl:w-20 xl:h-20 w-20 h-20 hoverAnimation p-0 xl:ml-24">
         {/* <Image src="https://rb.gy/ogau5a" width={30} height={30} onClick={() => router.push("/")} /> */}
         <Logo />
       </div>
