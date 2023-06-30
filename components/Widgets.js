@@ -43,7 +43,9 @@ function Widgets({ joke }) {
       return;
     }
 
-    const searchResults = posts.filter((post) => post.text.toLowerCase().startsWith(searchText.toLowerCase()));
+    console.log(posts);
+
+    const searchResults = posts.filter((post) => post.text.toLowerCase().includes(searchText.toLowerCase()));
 
     setIsSearching(true);
     setSearchedPosts(searchResults);
