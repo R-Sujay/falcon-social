@@ -1,7 +1,6 @@
 import { SearchIcon } from "@heroicons/react/outline";
 import Joke from "./Joke";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { isSearchingState, postState, searchPostState } from "../atoms/postAtom";
 import { BeatLoader } from "react-spinners";

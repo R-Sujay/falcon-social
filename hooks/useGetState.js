@@ -5,6 +5,7 @@ import { debounce } from "lodash";
 import fetchPosts from "../lib/fetchPosts";
 import fetchComments from "../lib/fetchComments";
 import fetchLikes from "../lib/fetchLikes";
+import { toast } from "react-hot-toast";
 
 function useGetState({ postId }) {
   const [post, setPost] = useRecoilState(postState);
@@ -50,7 +51,32 @@ function useGetState({ postId }) {
     []
   );
 
-  return { getPosts, getComments, getLikes };
+  const getRefreshedPosts = useCallback(
+    debounce(async (q) => {
+      const refreshToast = toast.loading("Refreshing...", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      fetchPosts()
+        .then((res) => {
+          setPost(res.documents.reverse());
+          toast.success("Feed Updated!", {
+            id: refreshToast,
+          });
+        })
+        .catch((err) =>
+          toast.error(err, {
+            id: refreshToast,
+          })
+        );
+    }, 100),
+    []
+  );
+
+  return { getPosts, getComments, getLikes, getRefreshedPosts };
 }
 
 export default useGetState;

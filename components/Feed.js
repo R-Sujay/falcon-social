@@ -9,7 +9,7 @@ import { itemSelectedAtom } from "../atoms/headerAtom";
 import FlipMove from "react-flip-move";
 
 function Feed() {
-  const { getPosts } = useGetState({ postId: "" });
+  const { getRefreshedPosts } = useGetState({ postId: "" });
   const posts = useRecoilValue(postState);
   const searchedPosts = useRecoilValue(searchPostState);
   const isSearching = useRecoilValue(isSearchingState);
@@ -17,19 +17,7 @@ function Feed() {
   const showEmojis = useRecoilValue(showEmojisState);
 
   const handleRefresh = () => {
-    const refreshToast = toast.loading("Refreshing...", {
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-    });
-
-    getPosts();
-
-    toast.success("Feed Updated!", {
-      id: refreshToast,
-    });
+    getRefreshedPosts();
   };
 
   return (

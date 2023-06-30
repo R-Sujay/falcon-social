@@ -16,7 +16,6 @@ import { motion } from "framer-motion";
 import { itemSelectedAtom } from "../atoms/headerAtom";
 import HeaderItem from "../components/HeaderItem";
 import { items } from "../constants/headerItems";
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 
 export default function Home({ jokes }) {

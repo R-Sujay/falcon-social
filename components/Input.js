@@ -1,4 +1,4 @@
-import { CalendarIcon, ChartBarIcon, EmojiHappyIcon, PhotographIcon, XIcon } from "@heroicons/react/outline";
+import { EmojiHappyIcon, PhotographIcon, XIcon } from "@heroicons/react/outline";
 import { EmojiHappyIcon as EmojiHappyIconFilled, PhotographIcon as PhotographIconFilled } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
 import { Picker } from "emoji-mart";
@@ -9,6 +9,7 @@ import addPost from "../lib/addPost";
 import useGetState from "../hooks/useGetState";
 import { useRecoilState } from "recoil";
 import { showEmojisState } from "../atoms/postAtom";
+import { toast } from "react-hot-toast";
 
 function Input() {
   const [input, setInput] = useState("");
@@ -26,12 +27,26 @@ function Input() {
     setLoading(true);
     setShowEmojis(false);
 
+    const uploadPostToast = toast.loading("Uploading Post", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
+
     let imageUrl;
 
     if (selectedFile) {
-      const fileUpload = await uploadFile(image).then((res) => {
-        imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${res.bucketId}/files/${res.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
-      });
+      const fileUpload = await uploadFile(image)
+        .then((res) => {
+          imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${res.bucketId}/files/${res.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
+        })
+        .catch(() =>
+          toast.error("Image Upload Failed, please try again", {
+            id: uploadPostToast,
+          })
+        );
     }
 
     const promise = await addPost({
@@ -41,7 +56,17 @@ function Input() {
       tag: session.user.tag,
       text: input,
       ...(image && { image: imageUrl }),
-    });
+    })
+      .then(() => {
+        toast.success("Post Uploaded!", {
+          id: uploadPostToast,
+        });
+      })
+      .catch(() =>
+        toast.error("Post Upload Failed, please try again", {
+          id: uploadPostToast,
+        })
+      );
 
     getPosts();
 

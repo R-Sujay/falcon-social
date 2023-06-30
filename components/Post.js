@@ -16,8 +16,6 @@ import Image from "next/image";
 import copy from "copy-to-clipboard";
 import Tilt from "react-parallax-tilt";
 import { toast } from "react-hot-toast";
-import ProgressBar from "@badrap/bar-of-progress";
-import { isLoadingAtom, loaderAtom } from "../atoms/headerAtom";
 
 const Post = forwardRef(({ id, post, postPage }, ref) => {
   const { data: session } = useSession();
@@ -135,9 +133,27 @@ const Post = forwardRef(({ id, post, postPage }, ref) => {
                   e.stopPropagation();
                   setLoading(true);
 
-                  deletePost(id, post?.image, postComments, postLikes);
+                  const deletePostToast = toast.loading("Post Deleting", {
+                    style: {
+                      borderRadius: "10px",
+                      background: "#333",
+                      color: "#fff",
+                    },
+                  });
 
-                  getPosts();
+                  deletePost(id, post?.image, postComments, postLikes)
+                    .then(() => {
+                      toast.success("Post Deleted!", {
+                        id: deletePostToast,
+                      });
+                      getPosts();
+                    })
+                    .catch(() =>
+                      toast.error("Delete Post Failed, please try again", {
+                        id: deletePostToast,
+                      })
+                    );
+
                   setLoading(false);
 
                   router.push("/");

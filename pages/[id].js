@@ -69,7 +69,7 @@ function PostPage({ jokes, followResults }) {
           {comments.length > 0 && (
             <FlipMove className="pb-72 transition-all space-y-4 mt-5">
               {postComments?.map((comment) => (
-                <Comment key={comment.$id} id={comment.$id} comment={comment} />
+                <Comment key={comment.$id} comment={comment} />
               ))}
             </FlipMove>
           )}

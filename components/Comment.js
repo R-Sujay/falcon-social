@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import Moment from "react-moment";
 import Tilt from "react-parallax-tilt";
 
-const Comment = forwardRef(({ id, comment }, ref) => {
+const Comment = forwardRef(({ comment }, ref) => {
   return (
     <div ref={ref}>
       <Tilt glareEnable={true} tiltEnable={true} className="overflow-hidden p-3 flex cursor-pointer bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 rounded-3xl">
