@@ -1,6 +1,6 @@
 import { ChatIcon, DotsHorizontalIcon, HeartIcon, ShareIcon, TrashIcon } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
-import useSession from "../lib/useSession";
+import useSession from "../hooks/useSession";
 import { useRouter } from "next/router";
 import { forwardRef, useEffect, useState } from "react";
 import Moment from "react-moment";

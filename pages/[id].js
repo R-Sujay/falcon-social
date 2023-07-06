@@ -7,7 +7,7 @@ import Post from "../components/Post";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Head from "next/head";
 import Comment from "../components/Comment";
-import useSession from "../lib/useSession";
+import useSession from "../hooks/useSession";
 import Widgets from "../components/Widgets";
 import useGetState from "../hooks/useGetState";
 import { commentState, postState } from "../atoms/postAtom";

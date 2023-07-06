@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import useSession from "../lib/useSession";
+import useSession from "../hooks/useSession";
 import { useRecoilState } from "recoil";
 import { profileModalState } from "../atoms/modalAtom";
 import Logo from "./Logo";

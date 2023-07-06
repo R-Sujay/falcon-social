@@ -6,6 +6,7 @@ function useSession() {
   const [user, setUser] = useState({});
   const [isUser, setIsUser] = useState(false);
   const lastedLoginedIn = new Date(user?.time);
+  console.log(lastedLoginedIn);
   const now = new Date(Date.now());
   const timeSince = Math.floor(Math.abs(lastedLoginedIn - now) / 36e5);
   const isLessThan10Hours = timeSince > 8;
@@ -38,7 +39,7 @@ function useSession() {
   // const data = {
   //   user: {
   //     name: "Sujay Rajesh",
-  //     email: "ssdsdsd",
+  //     email: "sujay.rajesh08@gmail.com",
   //     image: `https://api.dicebear.com/6.x/miniavs/png?seed=${user.name}&backgroundType=gradientLinear&backgroundColor=c0aede,ffd5dc`,
   //     tag: "sujayrajesh",
   //     uid: "22323",

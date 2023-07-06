@@ -6,7 +6,7 @@ import Login from "../components/Login";
 import Modal from "../components/Modal";
 import Sidebar from "../components/Sidebar";
 import Widgets from "../components/Widgets";
-import useSession from "../lib/useSession";
+import useSession from "../hooks/useSession";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import useGetState from "../hooks/useGetState";

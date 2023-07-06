@@ -1,6 +1,6 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import useSession from "../lib/useSession";
+import useSession from "../hooks/useSession";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
 import { useState } from "react";

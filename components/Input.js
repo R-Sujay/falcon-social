@@ -3,7 +3,7 @@ import { EmojiHappyIcon as EmojiHappyIconFilled, PhotographIcon as PhotographIco
 import { useRef, useState } from "react";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
-import useSession from "../lib/useSession";
+import useSession from "../hooks/useSession";
 import uploadFile from "../lib/uploadFile";
 import addPost from "../lib/addPost";
 import useGetState from "../hooks/useGetState";
