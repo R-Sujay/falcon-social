@@ -6,7 +6,6 @@ function useSession() {
   const [user, setUser] = useState({});
   const [isUser, setIsUser] = useState(false);
   const lastedLoginedIn = new Date(user?.time);
-  console.log(lastedLoginedIn);
   const now = new Date(Date.now());
   const timeSince = Math.floor(Math.abs(lastedLoginedIn - now) / 36e5);
   const isLessThan10Hours = timeSince > 8;
